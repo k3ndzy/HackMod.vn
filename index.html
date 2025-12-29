@@ -41,18 +41,40 @@
       </div>
       <div class="game-icon-card" onclick="openGameSidebar('aov')">
         <div class="card-badge updated">MỚI</div>
-        <img src="Aov.png" alt="AOV">
-        <span class="game-name">AOV</span>
+        <img src="Aov.png" alt="Liên Quân VN/TW/RoV">
+        <span class="game-name">Liên Quân VN/TW/RoV</span>
       </div>
       <div class="game-icon-card" onclick="openGameSidebar('tocchien')">
         <div class="card-badge updated">MỚI</div>
-        <img src="Tocchien.jpeg" alt="Tốc Chiến">
-        <span class="game-name">Tốc Chiến</span>
+        <img src="Tocchien.jpeg" alt="Tốc Chiến All Version">
+        <span class="game-name">Tốc Chiến All Version</span>
       </div>
       <div class="game-icon-card" onclick="openGameSidebar('cod')">
         <div class="card-badge vip">VIP</div>
-        <img src="COD.jpeg" alt="Call of Duty">
-        <span class="game-name">Call of Duty</span>
+        <img src="COD.jpeg" alt="Call of Duty All Version">
+        <span class="game-name">Call of Duty All Version</span>
+      </div>
+      <div class="game-icon-card" onclick="openGameSidebar('pubgkorea')">
+        <div class="card-badge vip">VIP</div>
+        <img src="Cenios.png" alt="PUBG Korea">
+        <span class="game-name">PUBG Korea</span>
+      </div>
+    </div>
+
+    <!-- TEST ACCOUNT SECTION -->
+    <div style="margin-top: 32px;">
+      <h2 style="font-size: 20px; margin-bottom: 16px; color: var(--text-color); text-align: center; font-weight: 700;">
+        🧪 Tài Khoản Test
+      </h2>
+      <div class="games-grid" style="background: linear-gradient(135deg, #f3e5f5 0%, #ede7f6 100%);">
+        <div class="game-icon-card" onclick="openGameSidebar('accrankvang')">
+          <img src="35k.jpeg" alt="Acc Test Rank Vàng">
+          <span class="game-name">Acc Test Rank Vàng</span>
+        </div>
+        <div class="game-icon-card" onclick="openGameSidebar('acctrangutinh')">
+          <img src="10k.jpeg" alt="Acc Test Trắng Tinh">
+          <span class="game-name">Acc Test Trắng Tinh</span>
+        </div>
       </div>
     </div>
 
@@ -1187,8 +1209,26 @@
           getKey: 'https://hackmod.vn'
         }
       },
+      pubgkorea: {
+        name: 'PUBG Korea',
+        icon: 'Cenios.png',
+        banner: 'banner.jpg',
+        version: '4.1',
+        status: 'Safe - Chơi Được Aim',
+        key: 'CeniOs-korea-ijEXMWqmg1qyTa1d',
+        duration: 3,
+        prices: {
+          day: { old: '80k', new: '30k' },
+          week: { old: '300k', new: '150k' },
+          month: { old: '800k', new: '350k' }
+        },
+        links: {
+          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/app.plist',
+          getKey: 'https://hackmod.vn'
+        }
+      },
       aov: {
-        name: 'Cen Map AOV',
+        name: 'Liên Quân VN/TW/RoV',
         icon: 'Aov.png',
         banner: 'Aov.png',
         version: '1.0',
@@ -1206,7 +1246,7 @@
         }
       },
       tocchien: {
-        name: 'Liên Quân Tốc Chiến',
+        name: 'Tốc Chiến All Version',
         icon: 'Tocchien.jpeg',
         banner: 'Tocchien.jpeg',
         version: '2.0',
@@ -1224,7 +1264,7 @@
         }
       },
       cod: {
-        name: 'Call of Duty Mobile',
+        name: 'Call of Duty All Version',
         icon: 'COD.jpeg',
         banner: 'COD.jpeg',
         version: '1.5',
@@ -1238,6 +1278,42 @@
         },
         links: {
           install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/cod.plist',
+          getKey: 'https://hackmod.vn'
+        }
+      },
+      accrankvang: {
+        name: 'Acc Test Rank Vàng',
+        icon: '35k.jpeg',
+        banner: '35k.jpeg',
+        version: '1.0',
+        status: 'Test Account - Rank Vàng',
+        key: 'AccTest-RankVang-12345',
+        duration: 24,
+        prices: {
+          day: { old: '50k', new: '35k' },
+          week: { old: '200k', new: '140k' },
+          month: { old: '500k', new: '350k' }
+        },
+        links: {
+          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/acctest.plist',
+          getKey: 'https://hackmod.vn'
+        }
+      },
+      acctrangutinh: {
+        name: 'Acc Test Trắng Tinh',
+        icon: '10k.jpeg',
+        banner: '10k.jpeg',
+        version: '1.0',
+        status: 'Test Account - Trắng Tinh',
+        key: 'AccTest-TrangUtinh-67890',
+        duration: 24,
+        prices: {
+          day: { old: '30k', new: '15k' },
+          week: { old: '120k', new: '70k' },
+          month: { old: '350k', new: '180k' }
+        },
+        links: {
+          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/acctest.plist',
           getKey: 'https://hackmod.vn'
         }
       }
@@ -1274,12 +1350,30 @@
           <a class="btn" href="${game.links.install}" onclick="handleInstall(this, '${gameId}'); return true;" style="width: 100%; text-align: center; display: block; margin-bottom: 10px; text-decoration: none;">
             📥 Cài Đặt Ngay
           </a>
-          <a class="btn" href="https://link1s.com/UeVYUyq" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-            🔑 Lấy Key Premium Link 1
+          <a class="btn" href="https://zalo.me/420773099399" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; background: linear-gradient(135deg, #0084ff 0%, #0073e6 100%); color: white; font-weight: 600;">
+            💬 Liên Hệ Zalo để Lấy Key
           </a>
-          <a class="btn" href="https://link1s.com/tWVkZ" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 16px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
-            🔑 Lấy Key Premium Link 2
+          <a class="btn" href="https://funlink.fun/" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); color: white; font-weight: 600;">
+            🎁 Vượt Link Funlink 1
           </a>
+          <a class="btn" href="https://funlink.fun/" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 16px; background: linear-gradient(135deg, #ff8c42 0%, #ff6b35 100%); color: white; font-weight: 600;">
+            🎁 Vượt Link Funlink 2
+          </a>
+        </div>
+
+        <div class="qr-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 16px; border-radius: 12px; margin-top: 16px; text-align: center;">
+          <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #2e7d32; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span>📱</span> Quét Mã Thanh Toán
+          </h3>
+          <div style="background: white; padding: 12px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+            <img src="Pay.jpg" alt="QR Payment" id="qrImage" style="width: 200px; height: 200px; border-radius: 8px; display: block;" oncontextmenu="return true;">
+          </div>
+          <a href="Pay.jpg" download="QR-Payment.jpg" style="display: inline-block; margin-top: 12px; padding: 8px 20px; background: #2e7d32; color: white; text-decoration: none; border-radius: 8px; font-size: 13px; font-weight: 600; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
+            💾 Tải QR về máy
+          </a>
+          <p style="margin: 12px 0 0 0; font-size: 13px; color: #2e7d32; font-weight: 600; line-height: 1.5;">
+            💬 Ae mua key nào thì viết nội dung đầu key như thế và gửi zalo cho mình để lấy key
+          </p>
         </div>
 
         <div class="trust-guide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 16px; border-radius: 12px; color: white; margin-top: 16px;">
