@@ -535,9 +535,23 @@
     }
 
     // Secure install handler - hides install link
-    function handleSecureInstall(gameId) {
+    function handleSecureInstall(gameId, event) {
       const game = gameData[gameId];
-      if (!game || !game.links || !game.links.install) return;
+      if (!game || !game.links || !game.links.install) {
+        console.error('Game data not found for:', gameId);
+        alert('❌ Không tìm thấy link cài đặt. Vui lòng thử lại!');
+        return;
+      }
+      
+      console.log('Installing:', gameId, game.links.install);
+      
+      // Show feedback
+      if (event && event.target) {
+        const btn = event.target;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '⏳ Đang chuyển hướng...';
+        btn.disabled = true;
+      }
       
       // Track and redirect without exposing link
       trackInstallation(gameId);
@@ -554,8 +568,10 @@
         }
       }
       
-      // Direct redirect without exposing URL
-      window.location.href = game.links.install;
+      // Redirect after short delay for feedback
+      setTimeout(() => {
+        window.location.href = game.links.install;
+      }, 300);
     }
 
     function trackInstallation(appId) {
@@ -1404,7 +1420,7 @@
         </div>
 
         <div class="button-group" style="margin-top: 16px;">
-          <button class="btn" onclick="handleSecureInstall('${gameId}')" style="width: 100%; text-align: center; display: block; margin-bottom: 10px; border: none; cursor: pointer;" oncontextmenu="return false;">
+          <button class="btn" onclick="handleSecureInstall('${gameId}', event)" style="width: 100%; text-align: center; display: block; margin-bottom: 10px; padding: 14px 20px; background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s;" oncontextmenu="return false;">
             📥 Cài Đặt Ngay
           </button>
           <a class="btn" href="https://zalo.me/420773099399" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; background: linear-gradient(135deg, #0084ff 0%, #0073e6 100%); color: white; font-weight: 600;">
