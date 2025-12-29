@@ -590,6 +590,35 @@
       }, 1000);
     }
 
+    // Simple tracking function for install link
+    function trackInstallClick(gameId) {
+      console.log('Install clicked for:', gameId);
+      trackInstallation(gameId);
+      incrementDownload(gameId);
+      
+      if (firebaseEnabled && analytics) {
+        try {
+          analytics.logEvent('app_install', {
+            app_id: gameId,
+            timestamp: new Date().toISOString()
+          });
+        } catch (error) {
+          console.warn('Analytics error:', error);
+        }
+      }
+      
+      // Check if iOS
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+      if (!isIOS) {
+        setTimeout(() => {
+          alert('⚠️ Link cài đặt chỉ hoạt động trên iPhone/iPad!\n\nVui lòng mở trang này bằng Safari trên iOS.');
+        }, 500);
+        return false;
+      }
+      
+      return true;
+    }
+
     function trackInstallation(appId) {
       if (!firebaseEnabled) return;
       
@@ -1436,9 +1465,9 @@
         </div>
 
         <div class="button-group" style="margin-top: 16px;">
-          <button class="btn" onclick="handleSecureInstall('${gameId}', event)" style="width: 100%; text-align: center; display: block; margin-bottom: 10px; padding: 14px 20px; background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: 600; transition: all 0.3s;" oncontextmenu="return false;">
+          <a class="btn" href="${game.links.install}" onclick="trackInstallClick('${gameId}')" style="width: 100%; text-align: center; display: block; margin-bottom: 10px; padding: 14px 20px; background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%); color: white; text-decoration: none; border-radius: 12px; font-size: 16px; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);">
             📥 Cài Đặt Ngay
-          </button>
+          </a>
           <a class="btn" href="https://zalo.me/420773099399" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; background: linear-gradient(135deg, #0084ff 0%, #0073e6 100%); color: white; font-weight: 600;">
             💬 Liên Hệ Zalo để Lấy Key
           </a>
