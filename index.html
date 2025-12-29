@@ -35,12 +35,24 @@
     <!-- GAME ICONS GRID -->
     <div class="games-grid">
       <div class="game-icon-card" onclick="openGameSidebar('pubg')">
+        <div class="card-badge vip">VIP</div>
         <img src="Cenios.png" alt="PUBG">
         <span class="game-name">PUBG</span>
       </div>
       <div class="game-icon-card" onclick="openGameSidebar('aov')">
+        <div class="card-badge updated">MỚI</div>
         <img src="Aov.png" alt="AOV">
         <span class="game-name">AOV</span>
+      </div>
+      <div class="game-icon-card" onclick="openGameSidebar('tocchien')">
+        <div class="card-badge updated">MỚI</div>
+        <img src="Tocchien.jpeg" alt="Tốc Chiến">
+        <span class="game-name">Tốc Chiến</span>
+      </div>
+      <div class="game-icon-card" onclick="openGameSidebar('cod')">
+        <div class="card-badge vip">VIP</div>
+        <img src="COD.jpeg" alt="Call of Duty">
+        <span class="game-name">Call of Duty</span>
       </div>
     </div>
 
@@ -407,12 +419,36 @@
     let selectedRatings = { pubg: 0, newapp: 0, aov: 0 };
     let sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      const btn = document.querySelector('.toggle-theme');
-      btn.textContent = document.body.classList.contains('dark') ? '☀️ Chuyển nền' : '🌙 Chuyển nền';
-      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    // Detect system theme preference
+    function getSystemTheme() {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
+
+    function applyTheme(theme) {
+      const btn = document.querySelector('.toggle-theme');
+      if (theme === 'dark') {
+        document.body.classList.add('dark');
+        btn.textContent = '☀️ Chuyển nền';
+      } else {
+        document.body.classList.remove('dark');
+        btn.textContent = '🌙 Chuyển nền';
+      }
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.body.classList.contains('dark') ? 'dark' : 'light';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      applyTheme(newTheme);
+      localStorage.setItem('theme', newTheme);
+    }
+
+    // Listen for system theme changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      // Only apply if user hasn't manually set a theme
+      if (!localStorage.getItem('theme')) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
 
     function copyKey(element) {
       const text = element.textContent.trim();
@@ -854,11 +890,10 @@
     });
 
     document.addEventListener('DOMContentLoaded', () => {
-      // Load theme
-      if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark');
-        document.querySelector('.toggle-theme').textContent = '☀️ Chuyển nền';
-      }
+      // Load theme - prefer user setting, fallback to system preference
+      const savedTheme = localStorage.getItem('theme');
+      const themeToApply = savedTheme || getSystemTheme();
+      applyTheme(themeToApply);
       
       // Initialize all features
       initCountdowns();
@@ -896,15 +931,6 @@
       
       // Cleanup old sessions every 5 minutes
       setInterval(cleanupOldSessions, 300000);
-      
-      // Welcome notification
-      setTimeout(() => {
-        if (firebaseEnabled) {
-          showNotification('🎉 Chào mừng! Tất cả dữ liệu được đồng bộ real-time.', 4000);
-        } else {
-          showNotification('📱 Chào mừng đến với Cen iOS Store!', 3000);
-        }
-      }, 1500);
       
       // Track page view
       if (firebaseEnabled && analytics) {
@@ -1178,6 +1204,42 @@
           install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/lienquanvu.plist',
           getKey: 'https://hackmod.vn'
         }
+      },
+      tocchien: {
+        name: 'Liên Quân Tốc Chiến',
+        icon: 'Tocchien.jpeg',
+        banner: 'Tocchien.jpeg',
+        version: '2.0',
+        status: 'Safe - Mở Full Map + Speed',
+        key: 'TocChien-Key-ABC456XYZ',
+        duration: 6,
+        prices: {
+          day: { old: '80k', new: '30k' },
+          week: { old: '300k', new: '150k' },
+          month: { old: '800k', new: '350k' }
+        },
+        links: {
+          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/tocchien.plist',
+          getKey: 'https://hackmod.vn'
+        }
+      },
+      cod: {
+        name: 'Call of Duty Mobile',
+        icon: 'COD.jpeg',
+        banner: 'COD.jpeg',
+        version: '1.5',
+        status: 'Safe - Aim + Wall Hack',
+        key: 'COD-Premium-789DEF',
+        duration: 6,
+        prices: {
+          day: { old: '100k', new: '50k' },
+          week: { old: '400k', new: '200k' },
+          month: { old: '1000k', new: '500k' }
+        },
+        links: {
+          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/cod.plist',
+          getKey: 'https://hackmod.vn'
+        }
       }
     };
 
@@ -1260,13 +1322,22 @@
 
     function closeGameSidebar() {
       const sidebar = document.getElementById('gameSidebar');
+      const sidebarContent = document.querySelector('.sidebar-content');
       sidebar.classList.remove('active');
       document.body.style.overflow = '';
+      
+      // Reset transform to prevent stuck state
+      if (sidebarContent) {
+        sidebarContent.style.transform = '';
+        sidebarContent.style.transition = '';
+      }
     }
 
     // Swipe gesture handler
     function initSwipeGesture() {
       const sidebarContent = document.querySelector('.sidebar-content');
+      if (!sidebarContent) return;
+      
       let touchStartX = 0;
       let touchStartY = 0;
       let touchEndX = 0;
@@ -1305,14 +1376,18 @@
         const diffX = touchStartX - touchEndX;
         const diffY = Math.abs(touchStartY - touchEndY);
         
-        // Reset transition
-        sidebarContent.style.transition = '';
-        
         // If swiped left more than 100px and horizontal swipe, close sidebar
         if (diffX > 100 && Math.abs(diffX) > diffY) {
-          closeGameSidebar();
+          // Animate close
+          sidebarContent.style.transition = 'transform 0.3s ease';
+          sidebarContent.style.transform = 'translateX(-100%)';
+          
+          setTimeout(() => {
+            closeGameSidebar();
+          }, 300);
         } else {
-          // Reset position
+          // Reset position with animation
+          sidebarContent.style.transition = 'transform 0.3s ease';
           sidebarContent.style.transform = '';
         }
         
