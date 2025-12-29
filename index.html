@@ -30,26 +30,12 @@
   <div class="container">
     <header class="header">
       <h1>🎮 Cen iOS Store</h1>
-      <div class="stats-bar">
-        <div class="stat-item">
-          <span class="stat-icon">👥</span>
-          <span class="stat-label">Online: <strong id="onlineCount">0</strong></span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon">📊</span>
-          <span class="stat-label">Tổng tải: <strong id="totalDownloads">0</strong></span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-icon">🔥</span>
-          <span class="stat-label">Hôm nay: <strong id="todayDownloads">0</strong></span>
-        </div>
-      </div>
     </header>
 
     <!-- GAME ICONS GRID -->
     <div class="games-grid">
       <div class="game-icon-card" onclick="openGameSidebar('pubg')">
-        <img src="icon-120.png" alt="PUBG">
+        <img src="Cenios.png" alt="PUBG">
         <span class="game-name">PUBG</span>
       </div>
       <div class="game-icon-card" onclick="openGameSidebar('aov')">
@@ -1159,7 +1145,7 @@
     const gameData = {
       pubg: {
         name: 'FunTap PUBG',
-        icon: 'icon-120.png',
+        icon: 'Cenios.png',
         banner: 'banner.jpg',
         version: '4.1',
         status: 'Safe - Chơi Được Aim',
@@ -1212,59 +1198,42 @@
         </div>
 
         <div class="sidebar-section">
-          <img src="${game.banner}" style="width: 100%; border-radius: 12px; margin-bottom: 16px;">
+          <img src="${game.banner}" style="width: 100%; border-radius: 12px; margin-bottom: 12px;">
         </div>
 
         <div class="sidebar-section">
-          <h3>📋 Thông Tin</h3>
-          <div style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
-            <p><strong>Version:</strong> ${game.version}</p>
-            <p><strong>Hiện Trạng:</strong> <span style="color: #4caf50; font-weight: 600;">${game.status}</span></p>
-          </div>
-        </div>
-
-        <div class="sidebar-section">
-          <h3>🔑 Key Free</h3>
-          <code class="copy-code" onclick="copyKey(this)" style="display: block; padding: 12px; background: #e3f2fd; border-radius: 8px; cursor: pointer; text-align: center; font-weight: 600;">
+          <h3 style="margin: 0 0 8px 0; font-size: 16px;">🔑 Key Free</h3>
+          <code class="copy-code" onclick="copyKey(this)" style="display: block; padding: 10px; background: #e3f2fd; border-radius: 8px; cursor: pointer; text-align: center; font-weight: 600; font-size: 14px;">
             ${game.key}
           </code>
-          <div class="countdown-timer" data-endtime="${game.duration}" style="margin-top: 12px; padding: 12px; background: #fff3e0; border-radius: 8px; text-align: center;">
-            <span class="timer-icon">⏱️</span>
-            <span class="timer-text">Đang tải...</span>
-          </div>
         </div>
 
-        <div class="sidebar-section">
-          <h3>💰 Bảng Giá</h3>
-          <div class="prices">
-            <div class="price-item">Ngày: <del>${game.prices.day.old}</del> <strong>${game.prices.day.new}</strong></div>
-            <div class="price-item">Tuần: <del>${game.prices.week.old}</del> <strong>${game.prices.week.new}</strong></div>
-            <div class="price-item">Tháng: <del>${game.prices.month.old}</del> <strong>${game.prices.month.new}</strong></div>
-          </div>
-        </div>
-
-        <div class="sidebar-section">
-          <h3>⭐ Đánh Giá</h3>
-          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
-            <span style="font-size: 24px; font-weight: 700;">${gameId === 'pubg' ? '4.8' : '4.5'}</span>
-            <span style="color: #ffa726;">⭐⭐⭐⭐⭐</span>
-            <span style="color: #888;">(<span id="rating-count-${gameId}">0</span> đánh giá)</span>
-          </div>
-          <div style="color: #888; font-size: 14px;">
-            📥 <span class="download-count" data-app="${gameId}">0</span> lượt tải
-          </div>
-        </div>
-
-        <div class="button-group" style="margin-top: 24px;">
-          <a class="btn" href="${game.links.install}" onclick="handleInstall(this, '${gameId}'); return true;" style="width: 100%; text-align: center; display: block; margin-bottom: 12px; text-decoration: none;">
+        <div class="button-group" style="margin-top: 16px;">
+          <a class="btn" href="${game.links.install}" onclick="handleInstall(this, '${gameId}'); return true;" style="width: 100%; text-align: center; display: block; margin-bottom: 10px; text-decoration: none;">
             📥 Cài Đặt Ngay
           </a>
-          <button class="btn btn-favorite" onclick="toggleFavorite('${gameId}')" style="width: 100%; margin-bottom: 12px;">
-            <span class="favorite-icon" id="fav-${gameId}">🤍</span> Yêu Thích
-          </button>
-          <a class="btn" href="${game.links.getKey}" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none;">
-            🔑 Lấy Key Premium (3k)
+          <a class="btn" href="https://link1s.com/UeVYUyq" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            🔑 Lấy Key Premium Link 1
           </a>
+          <a class="btn" href="https://link1s.com/tWVkZ" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 16px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
+            🔑 Lấy Key Premium Link 2
+          </a>
+        </div>
+
+        <div class="trust-guide" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 16px; border-radius: 12px; color: white; margin-top: 16px;">
+          <h3 style="margin: 0 0 12px 0; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+            <span>🛡️</span> Hướng Dẫn Tin Cậy
+          </h3>
+          <ol style="margin: 0; padding-left: 20px; font-size: 14px; line-height: 1.8;">
+            <li>Vào <strong>Cài đặt</strong> → <strong>Cài đặt chung</strong></li>
+            <li>Chọn <strong>VPN & Quản lý thiết bị</strong></li>
+            <li>Tìm và chọn <strong>${game.name}</strong></li>
+            <li>Nhấn <strong>Tin cậy "${game.name}"</strong></li>
+            <li>Xác nhận và mở ứng dụng ✅</li>
+          </ol>
+          <div style="margin-top: 12px; padding: 10px; background: rgba(255,255,255,0.2); border-radius: 8px; font-size: 13px; text-align: center;">
+            💡 Sau khi tin cậy, bạn có thể chơi game mượt mà!
+          </div>
         </div>
       `;
 
@@ -1284,12 +1253,71 @@
       if (downloadCountElement && window.downloadCounts) {
         downloadCountElement.textContent = window.downloadCounts[gameId] || 0;
       }
+
+      // Add swipe gesture to close sidebar
+      initSwipeGesture();
     }
 
     function closeGameSidebar() {
       const sidebar = document.getElementById('gameSidebar');
       sidebar.classList.remove('active');
       document.body.style.overflow = '';
+    }
+
+    // Swipe gesture handler
+    function initSwipeGesture() {
+      const sidebarContent = document.querySelector('.sidebar-content');
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchEndX = 0;
+      let touchEndY = 0;
+      let isDragging = false;
+
+      sidebarContent.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+        isDragging = true;
+      }, { passive: true });
+
+      sidebarContent.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        
+        const diffX = touchStartX - touchEndX;
+        const diffY = Math.abs(touchStartY - touchEndY);
+        
+        // Only apply transform if horizontal swipe is dominant
+        if (Math.abs(diffX) > diffY && diffX > 0) {
+          const translateValue = Math.min(diffX, 300);
+          sidebarContent.style.transform = `translateX(-${translateValue}px)`;
+          sidebarContent.style.transition = 'none';
+        }
+      }, { passive: true });
+
+      sidebarContent.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        
+        const diffX = touchStartX - touchEndX;
+        const diffY = Math.abs(touchStartY - touchEndY);
+        
+        // Reset transition
+        sidebarContent.style.transition = '';
+        
+        // If swiped left more than 100px and horizontal swipe, close sidebar
+        if (diffX > 100 && Math.abs(diffX) > diffY) {
+          closeGameSidebar();
+        } else {
+          // Reset position
+          sidebarContent.style.transform = '';
+        }
+        
+        isDragging = false;
+      }, { passive: true });
     }
 
     // Close sidebar when pressing ESC
