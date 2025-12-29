@@ -548,12 +548,17 @@
       // Show feedback
       if (event && event.target) {
         const btn = event.target;
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '⏳ Đang chuyển hướng...';
+        btn.innerHTML = '⏳ Đang cài đặt...';
         btn.disabled = true;
+        
+        // Reset after 3 seconds
+        setTimeout(() => {
+          btn.innerHTML = '📥 Cài Đặt Ngay';
+          btn.disabled = false;
+        }, 3000);
       }
       
-      // Track and redirect without exposing link
+      // Track installation
       trackInstallation(gameId);
       incrementDownload(gameId);
       
@@ -568,10 +573,21 @@
         }
       }
       
-      // Redirect after short delay for feedback
+      // Create hidden link and trigger click (works better for itms-services://)
+      const link = document.createElement('a');
+      link.href = game.links.install;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Show instruction if on desktop
       setTimeout(() => {
-        window.location.href = game.links.install;
-      }, 300);
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        if (!isIOS) {
+          alert('💡 Link chỉ hoạt động trên iPhone/iPad với Safari.\n\nVui lòng mở trang này trên thiết bị iOS!');
+        }
+      }, 1000);
     }
 
     function trackInstallation(appId) {
