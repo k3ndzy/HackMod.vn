@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cen iOS - Admin Panel</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #f5f5f7;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* SIDEBAR NAVIGATION */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 280px;
+      height: 100vh;
+      background: linear-gradient(180deg, #1a73e8 0%, #155ab6 100%);
+      color: white;
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+      overflow-y: auto;
+    }
+
+    .sidebar.collapsed {
+      transform: translateX(-280px);
+    }
+
+    .sidebar-header {
+      padding: 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .logo:hover {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .sidebar-nav {
+      padding: 16px 0;
+    }
+
+    .nav-item {
+      padding: 14px 24px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: rgba(255, 255, 255, 0.9);
+      border-left: 3px solid transparent;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-left-color: white;
+      padding-left: 28px;
+    }
+
+    .nav-item.active {
+      background: rgba(255, 255, 255, 0.15);
+      border-left-color: white;
+      font-weight: 600;
+    }
+
+    .nav-icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    /* TOGGLE BUTTON */
+    .toggle-sidebar {
+      position: fixed;
+      left: 300px;
+      top: 20px;
+      width: 48px;
+      height: 48px;
+      background: white;
+      border: none;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.3s;
+      z-index: 999;
+    }
+
+    .toggle-sidebar.collapsed {
+      left: 20px;
+    }
+
+    .toggle-sidebar:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* MAIN CONTENT */
+    .main-wrapper {
+      margin-left: 280px;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .main-wrapper.expanded {
+      margin-left: 0;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #222;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .admin-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .panel {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .panel h2 {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #222;
+      border-bottom: 2px solid #1a73e8;
+      padding-bottom: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+
+    .btn-primary {
+      background: #1a73e8;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #155ab6;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+    }
+
+    .btn-danger {
+      background: #d32f2f;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #b71c1c;
+    }
+
+    .btn-secondary {
+      background: #f1f1f1;
+      color: #333;
+    }
+
+    .btn-secondary:hover {
+      background: #e0e0e0;
+    }
+
+    .keys-list {
+      margin-top: 24px;
+    }
+
+    .key-item {
+      background: #f9f9f9;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border-left: 4px solid #1a73e8;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .key-info {
+      flex: 1;
+    }
+
+    .key-code {
+      font-family: 'Courier New', monospace;
+      font-weight: 700;
+      color: #1a73e8;
+      font-size: 14px;
+    }
+
+    .key-meta {
+      font-size: 12px;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .key-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-small {
+      padding: 6px 12px;
+      font-size: 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-small-danger {
+      background: #ffebee;
+      color: #d32f2f;
+    }
+
+    .btn-small-danger:hover {
+      background: #ffcdd2;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #1a73e8, #2196f3);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .notification {
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: none;
+      animation: slideIn 0.3s ease;
+    }
+
+    .notification.show {
+      display: block;
+    }
+
+    .notification.success {
+      background: #c8e6c9;
+      color: #2e7d32;
+      border-left: 4px solid #4caf50;
+    }
+
+    .notification.error {
+      background: #ffcdd2;
+      color: #c62828;
+      border-left: 4px solid #d32f2f;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 250px;
+      }
+
+      .sidebar.collapsed {
+        transform: translateX(-250px);
+      }
+
+      .main-wrapper {
+        margin-left: 0;
+        padding: 10px;
+      }
+
+      .toggle-sidebar {
+        left: 10px;
+        top: 10px;
+      }
+
+      .toggle-sidebar.collapsed {
+        left: 10px;
+      }
+
+      .admin-content {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .logo-text {
+        font-size: 16px;
+      }
+
+      .nav-item {
+        padding: 12px 16px;
+        font-size: 14px;
+      }
+    }
+
+    .usage-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .usage-table th,
+    .usage-table td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 14px;
+    }
+
+    .usage-table th {
+      background: #f5f5f5;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .usage-table tr:hover {
+      background: #f9f9f9;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-active {
+      background: #c8e6c9;
+      color: #2e7d32;
+    }
+
+    .status-expired {
+      background: #ffcdd2;
+      color: #c62828;
+    }
+
+    .status-used-up {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    @media (max-width: 768px) {
+      .admin-content {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #1a73e8;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- SIDEBAR NAVIGATION -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo" onclick="toggleSidebar()" title="Click để thu gọn">
+        🔥
+      </div>
+      <div class="logo-text">CeniOs Admin</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="scrollToSection('dailyKey')">
+        <span class="nav-icon">🔥</span>
+        <span>Key Hôm Nay</span>
+      </div>
+      <div class="nav-item" onclick="scrollToSection('createKey')">
+        <span class="nav-icon">➕</span>
+        <span>Tạo Key Mới</span>
+      </div>
+      <div class="nav-item" onclick="scrollToSection('stats')">
+        <span class="nav-icon">📊</span>
+        <span>Thống Kê</span>
+      </div>
+      <div class="nav-item" onclick="scrollToSection('keysList')">
+        <span class="nav-icon">🔑</span>
+        <span>Danh Sách Key</span>
+      </div>
+      <div class="nav-item" onclick="scrollToSection('analytics')">
+        <span class="nav-icon">📈</span>
+        <span>Analytics</span>
+      </div>
+    </nav>
+  </div>
+
+  <!-- TOGGLE BUTTON -->
+  <button class="toggle-sidebar" id="toggleBtn" onclick="toggleSidebar()" title="Thu gọn/Mở rộng">
+    ◀
+  </button>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-wrapper" id="mainWrapper">
+    <div class="container">
+    <header>
+      <h1>🔑 Cen iOS - Admin Panel</h1>
+      <p class="subtitle">Quản lý keys và thống kê sử dụng</p>
+    </header>
+
+    <div id="notification" class="notification"></div>
+
+    <!-- Statistics Cards -->
+    <div class="stats" id="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="totalKeys">-</div>
+        <div class="stat-label">Tổng Keys</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="activeKeys">-</div>
+        <div class="stat-label">Keys Hoạt Động</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="totalUsed">-</div>
+        <div class="stat-label">Tổng Lần Dùng</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="expiredKeys">-</div>
+        <div class="stat-label">Keys Hết Hạn</div>
+      </div>
+    </div>
+
+    <div class="admin-content">
+      <!-- Daily Key Panel -->
+      <div class="panel" id="dailyKey">
+        <h2>🔥 Phát Hành Hôm Nay</h2>
+        
+        <div class="form-group">
+          <label>🔑 Key Code (từ server)</label>
+          <input type="text" id="dailyKeyCode" placeholder="CeniOs-hour-ijEXMWqmg1qyTa1d" />
+        </div>
+
+        <div class="form-group">
+          <label>⏱️ Thời Lượng (giờ)</label>
+          <input type="number" id="dailyDuration" value="6" min="1" max="24" />
+        </div>
+
+        <div class="form-group">
+          <label>📱 Lần Dùng Tối Đa</label>
+          <input type="number" id="dailyMaxUses" value="50" min="1" max="100" />
+        </div>
+
+        <div class="form-group">
+          <label>🎮 App</label>
+          <select id="dailyAppSelect">
+            <option value="pubg">FunTap PUBG</option>
+            <option value="aov">Cen Map AOV</option>
+          </select>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-primary" onclick="addDailyKey()">🎁 Phát Hành Key Hôm Nay</button>
+          <button class="btn-secondary" onclick="removeDailyKey()">🗑️ Hủy Key</button>
+        </div>
+
+        <div id="dailyKeyInfo" style="margin-top: 24px; padding: 16px; background: #e3f2fd; border-radius: 8px; border-left: 4px solid #2196f3; display: none;">
+          <h3 style="font-size: 16px; margin-bottom: 12px; color: #1976d2;">📢 Key Hôm Nay:</h3>
+          <div id="dailyKeyDisplay" style="font-family: 'Courier New', monospace; font-size: 14px; color: #1976d2; font-weight: 700; margin-bottom: 8px; word-break: break-all;"></div>
+          <div id="dailyKeyMeta" style="font-size: 12px; color: #555; line-height: 1.8;"></div>
+          <button onclick="copyDailyKey()" style="margin-top: 12px; padding: 8px 16px; background: #2196f3; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">📋 Copy Key</button>
+        </div>
+      </div>
+
+      <!-- Create Key Panel -->
+      <div class="panel" id="createKey">
+        <h2>➕ Tạo Key Mới</h2>
+        
+        <div class="form-group">
+          <label>⏱️ Thời Lượng (giờ)</label>
+          <input type="number" id="duration" value="6" min="1" max="720" />
+        </div>
+
+        <div class="form-group">
+          <label>📱 Lần Dùng Tối Đa</label>
+          <input type="number" id="maxUses" value="10" min="1" max="100" />
+        </div>
+
+        <div class="form-group">
+          <label>🎮 App</label>
+          <select id="appSelect">
+            <option value="pubg">FunTap PUBG</option>
+            <option value="aov">Cen Map AOV</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>📝 Ghi Chú (optional)</label>
+          <textarea id="notes" placeholder="Ví dụ: Test key cho team QA..."></textarea>
+        </div>
+
+        <div class="button-group">
+          <button class="btn-primary" onclick="createKey()">🔐 Tạo Key</button>
+          <button class="btn-secondary" onclick="generateBatch()">🔄 Tạo 10 Keys</button>
+        </div>
+
+        <div class="keys-list" id="keysList">
+          <h3 style="font-size: 16px; margin-top: 24px;">📋 Danh Sách Keys</h3>
+          <h3 style="margin-top: 24px; margin-bottom: 16px;">📋 Keys Gần Đây</h3>
+          <div id="keysContainer" style="text-align: center; color: #999;">
+            <div class="loading"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Panel -->
+      <div class="panel" id="analytics">
+        <h2>📊 Thống Kê & Analytics</h2>
+        
+        <div style="margin-bottom: 20px;">
+          <h3 style="font-size: 16px; margin-bottom: 12px;">🔍 Tìm Kiếm Key</h3>
+          <div class="form-group">
+            <input type="text" id="searchKey" placeholder="Nhập code key..." 
+                   onkeyup="searchKey()" />
+          </div>
+        </div>
+
+        <h3 style="font-size: 16px; margin-bottom: 12px;">📈 Lịch Sử Sử Dụng</h3>
+        <div id="usageContainer" style="text-align: center; color: #999;">
+          <div class="loading"></div>
+        </div>
+
+        <table class="usage-table" id="usageTable" style="display: none;">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>App</th>
+              <th>Dùng / Limit</th>
+              <th>Device ID</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="usageBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script>
+    // Firebase Configuration (use same as index.html)
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "cenios-store.firebaseapp.com",
+      databaseURL: "https://cenios-store-default-rtdb.firebaseio.com",
+      projectId: "cenios-store",
+      storageBucket: "cenios-store.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456"
+    };
+
+    let db;
+    let firebaseEnabled = false;
+
+    try {
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
+        firebaseEnabled = true;
+        console.log('✅ Firebase initialized');
+      }
+    } catch (error) {
+      console.error('❌ Firebase error:', error);
+      showNotification('⚠️ Firebase không khả dụng', 'error');
+    }
+
+    // Utility Functions
+    function generateKeyCode() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let code = 'CENIOS-';
+      for (let i = 0; i < 12; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    }
+
+    function getDeviceId() {
+      let deviceId = localStorage.getItem('deviceId');
+      if (!deviceId) {
+        deviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('deviceId', deviceId);
+      }
+      return deviceId;
+    }
+
+    function showNotification(message, type = 'success') {
+      const notif = document.getElementById('notification');
+      notif.textContent = message;
+      notif.className = `notification show ${type}`;
+      setTimeout(() => {
+        notif.classList.remove('show');
+      }, 4000);
+    }
+
+    // Create Single Key
+    async function createKey() {
+      if (!firebaseEnabled) {
+        showNotification('❌ Firebase không kết nối', 'error');
+        return;
+      }
+
+      const duration = parseInt(document.getElementById('duration').value);
+      const maxUses = parseInt(document.getElementById('maxUses').value);
+      const app = document.getElementById('appSelect').value;
+      const notes = document.getElementById('notes').value;
+
+      if (!duration || !maxUses) {
+        showNotification('❌ Vui lòng điền đầy đủ thông tin', 'error');
+        return;
+      }
+
+      const keyCode = generateKeyCode();
+      const now = Date.now();
+      const expiryTime = now + (duration * 60 * 60 * 1000);
+
+      try {
+        await db.ref(`keys/${keyCode}`).set({
+          code: keyCode,
+          app: app,
+          duration: duration,
+          maxUses: maxUses,
+          used: 0,
+          created: now,
+          expiry: expiryTime,
+          expiryDate: new Date(expiryTime).toISOString().split('T')[0],
+          status: 'active',
+          notes: notes,
+          createdAt: new Date().toLocaleString('vi-VN')
+        });
+
+        showNotification(`✅ Tạo key thành công: ${keyCode}`, 'success');
+        document.getElementById('notes').value = '';
+        loadKeys();
+        updateStats();
+      } catch (error) {
+        console.error('Error:', error);
+        showNotification(`❌ Lỗi: ${error.message}`, 'error');
+      }
+    }
+
+    // Generate 10 Keys at once
+    async function generateBatch() {
+      if (!firebaseEnabled) {
+        showNotification('❌ Firebase không kết nối', 'error');
+        return;
+      }
+
+      const duration = parseInt(document.getElementById('duration').value);
+      const maxUses = parseInt(document.getElementById('maxUses').value);
+      const app = document.getElementById('appSelect').value;
+
+      if (!duration || !maxUses) {
+        showNotification('❌ Vui lòng điền đầy đủ thông tin', 'error');
+        return;
+      }
+
+      try {
+        const batch = [];
+        for (let i = 0; i < 10; i++) {
+          const keyCode = generateKeyCode();
+          const now = Date.now();
+          const expiryTime = now + (duration * 60 * 60 * 1000);
+
+          batch.push(
+            db.ref(`keys/${keyCode}`).set({
+              code: keyCode,
+              app: app,
+              duration: duration,
+              maxUses: maxUses,
+              used: 0,
+              created: now,
+              expiry: expiryTime,
+              expiryDate: new Date(expiryTime).toISOString().split('T')[0],
+              status: 'active',
+              notes: 'Batch key',
+              createdAt: new Date().toLocaleString('vi-VN')
+            })
+          );
+        }
+
+        await Promise.all(batch);
+        showNotification('✅ Tạo 10 keys thành công!', 'success');
+        loadKeys();
+        updateStats();
+      } catch (error) {
+        console.error('Error:', error);
+        showNotification(`❌ Lỗi: ${error.message}`, 'error');
+      }
+    }
+
+    // Load Keys
+    async function loadKeys() {
+      if (!firebaseEnabled) return;
+
+      try {
+        const snapshot = await db.ref('keys').orderByChild('created').limitToLast(20).once('value');
+        const container = document.getElementById('keysContainer');
+
+        if (!snapshot.exists()) {
+          container.innerHTML = '<p>Chưa có keys nào</p>';
+          return;
+        }
+
+        const keys = [];
+        snapshot.forEach(child => {
+          keys.push(child.val());
+        });
+
+        container.innerHTML = keys.reverse().map(key => {
+          const progress = Math.round((key.used / key.maxUses) * 100);
+          const isExpired = Date.now() > key.expiry;
+          const status = isExpired ? 'expired' : (key.used >= key.maxUses ? 'used-up' : 'active');
+
+          return `
+            <div class="key-item">
+              <div class="key-info">
+                <div class="key-code">${key.code}</div>
+                <div class="key-meta">
+                  🎮 ${key.app} | ⏱️ ${key.duration}h | 
+                  📊 ${key.used}/${key.maxUses} | 
+                  📅 ${new Date(key.expiry).toLocaleString('vi-VN')}
+                </div>
+                <div style="width: 100%; height: 4px; background: #e0e0e0; border-radius: 2px; margin-top: 8px; overflow: hidden;">
+                  <div style="width: ${progress}%; height: 100%; background: ${progress < 50 ? '#4caf50' : progress < 80 ? '#ff9800' : '#d32f2f'};"></div>
+                </div>
+              </div>
+              <div class="key-actions">
+                <button class="btn-small btn-small-danger" onclick="deleteKey('${key.code}')">🗑️</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('Error loading keys:', error);
+      }
+    }
+
+    // Delete Key
+    async function deleteKey(keyCode) {
+      if (!confirm(`Bạn chắc chắn muốn xóa key ${keyCode}?`)) return;
+
+      try {
+        await db.ref(`keys/${keyCode}`).remove();
+        showNotification('✅ Đã xóa key', 'success');
+        loadKeys();
+        updateStats();
+      } catch (error) {
+        showNotification(`❌ Lỗi: ${error.message}`, 'error');
+      }
+    }
+
+    // Update Stats
+    async function updateStats() {
+      if (!firebaseEnabled) return;
+
+      try {
+        const snapshot = await db.ref('keys').once('value');
+        let total = 0, active = 0, used = 0, expired = 0, totalUsed = 0;
+
+        snapshot.forEach(child => {
+          const key = child.val();
+          total++;
+          totalUsed += key.used;
+
+          if (Date.now() > key.expiry) {
+            expired++;
+          } else if (key.used >= key.maxUses) {
+            used++;
+          } else {
+            active++;
+          }
+        });
+
+        document.getElementById('totalKeys').textContent = total;
+        document.getElementById('activeKeys').textContent = active;
+        document.getElementById('totalUsed').textContent = totalUsed;
+        document.getElementById('expiredKeys').textContent = expired;
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // Search Key
+    async function searchKey() {
+      const search = document.getElementById('searchKey').value.toUpperCase();
+      if (!search) {
+        loadKeys();
+        return;
+      }
+
+      try {
+        const snapshot = await db.ref('keys').once('value');
+        const container = document.getElementById('keysContainer');
+
+        let found = [];
+        snapshot.forEach(child => {
+          if (child.val().code.includes(search)) {
+            found.push(child.val());
+          }
+        });
+
+        if (found.length === 0) {
+          container.innerHTML = '<p>Không tìm thấy key</p>';
+          return;
+        }
+
+        container.innerHTML = found.map(key => {
+          const progress = Math.round((key.used / key.maxUses) * 100);
+          return `
+            <div class="key-item">
+              <div class="key-info">
+                <div class="key-code">${key.code}</div>
+                <div class="key-meta">
+                  🎮 ${key.app} | ⏱️ ${key.duration}h | 
+                  📊 ${key.used}/${key.maxUses} | 
+                  📅 ${new Date(key.expiry).toLocaleString('vi-VN')}
+                </div>
+              </div>
+              <div class="key-actions">
+                <button class="btn-small btn-small-danger" onclick="deleteKey('${key.code}')">🗑️</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    // ========== DAILY KEY FUNCTIONS ==========
+    async function addDailyKey() {
+      if (!firebaseEnabled) {
+        showNotification('❌ Firebase không kết nối', 'error');
+        return;
+      }
+
+      const keyCode = document.getElementById('dailyKeyCode').value.trim();
+      const duration = parseInt(document.getElementById('dailyDuration').value);
+      const maxUses = parseInt(document.getElementById('dailyMaxUses').value);
+      const app = document.getElementById('dailyAppSelect').value;
+
+      if (!keyCode || !duration || !maxUses) {
+        showNotification('❌ Vui lòng điền đầy đủ thông tin', 'error');
+        return;
+      }
+
+      const now = Date.now();
+      const expiryTime = now + (duration * 60 * 60 * 1000);
+
+      try {
+        // Save as special daily key
+        await db.ref(`dailyKeys/${new Date().toISOString().split('T')[0]}`).set({
+          code: keyCode,
+          app: app,
+          duration: duration,
+          maxUses: maxUses,
+          used: 0,
+          created: now,
+          expiry: expiryTime,
+          expiryDate: new Date(expiryTime).toISOString().split('T')[0],
+          status: 'active',
+          createdAt: new Date().toLocaleString('vi-VN')
+        });
+
+        // Also save to regular keys for validation
+        await db.ref(`keys/${keyCode}`).set({
+          code: keyCode,
+          app: app,
+          duration: duration,
+          maxUses: maxUses,
+          used: 0,
+          created: now,
+          expiry: expiryTime,
+          expiryDate: new Date(expiryTime).toISOString().split('T')[0],
+          status: 'active',
+          notes: 'Daily Key',
+          createdAt: new Date().toLocaleString('vi-VN'),
+          isDaily: true
+        });
+
+        // Show daily key info
+        document.getElementById('dailyKeyDisplay').textContent = keyCode;
+        document.getElementById('dailyKeyMeta').innerHTML = `
+          🎮 App: ${app === 'pubg' ? 'FunTap PUBG' : 'Cen Map AOV'}<br>
+          ⏱️ Duration: ${duration} giờ<br>
+          📱 Max Uses: ${maxUses}<br>
+          📅 Expiry: ${new Date(expiryTime).toLocaleString('vi-VN')}
+        `;
+        document.getElementById('dailyKeyInfo').style.display = 'block';
+
+        showNotification('✅ Phát hành key hôm nay thành công!', 'success');
+        document.getElementById('dailyKeyCode').value = '';
+      } catch (error) {
+        console.error('Error:', error);
+        showNotification(`❌ Lỗi: ${error.message}`, 'error');
+      }
+    }
+
+    async function removeDailyKey() {
+      if (!firebaseEnabled) {
+        showNotification('❌ Firebase không kết nối', 'error');
+        return;
+      }
+
+      if (!confirm('Bạn chắc chắn muốn hủy key hôm nay?')) return;
+
+      try {
+        const todayKey = new Date().toISOString().split('T')[0];
+        const snapshot = await db.ref(`dailyKeys/${todayKey}`).once('value');
+        
+        if (snapshot.exists()) {
+          const keyCode = snapshot.val().code;
+          await db.ref(`dailyKeys/${todayKey}`).remove();
+          await db.ref(`keys/${keyCode}`).remove();
+          
+          document.getElementById('dailyKeyInfo').style.display = 'none';
+          showNotification('✅ Đã hủy key hôm nay', 'success');
+        } else {
+          showNotification('❌ Không có key nào hôm nay', 'error');
+        }
+      } catch (error) {
+        showNotification(`❌ Lỗi: ${error.message}`, 'error');
+      }
+    }
+
+    function copyDailyKey() {
+      const keyCode = document.getElementById('dailyKeyDisplay').textContent;
+      navigator.clipboard.writeText(keyCode).then(() => {
+        showNotification('✅ Đã copy key!', 'success');
+      }).catch(() => {
+        showNotification('❌ Không thể copy', 'error');
+      });
+    }
+
+    async function loadDailyKey() {
+      if (!firebaseEnabled) return;
+
+      try {
+        const todayKey = new Date().toISOString().split('T')[0];
+        const snapshot = await db.ref(`dailyKeys/${todayKey}`).once('value');
+        
+        if (snapshot.exists()) {
+          const key = snapshot.val();
+          document.getElementById('dailyKeyDisplay').textContent = key.code;
+          document.getElementById('dailyKeyMeta').innerHTML = `
+            🎮 App: ${key.app === 'pubg' ? 'FunTap PUBG' : 'Cen Map AOV'}<br>
+            ⏱️ Duration: ${key.duration} giờ<br>
+            📱 Max Uses: ${key.maxUses}<br>
+            📅 Expiry: ${new Date(key.expiry).toLocaleString('vi-VN')}
+          `;
+          document.getElementById('dailyKeyInfo').style.display = 'block';
+        }
+      } catch (error) {
+        console.error('Error loading daily key:', error);
+      }
+    }
+
+    // ========== SIDEBAR NAVIGATION FUNCTIONS ==========
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const mainWrapper = document.getElementById('mainWrapper');
+      const toggleBtn = document.getElementById('toggleBtn');
+      
+      sidebar.classList.toggle('collapsed');
+      mainWrapper.classList.toggle('expanded');
+      toggleBtn.classList.toggle('collapsed');
+      
+      // Change arrow direction
+      if (sidebar.classList.contains('collapsed')) {
+        toggleBtn.textContent = '▶';
+      } else {
+        toggleBtn.textContent = '◀';
+      }
+      
+      // Save state to localStorage
+      localStorage.setItem('sidebarCollapsed', sidebar.classList.contains('collapsed'));
+    }
+
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        
+        // Update active nav item
+        document.querySelectorAll('.nav-item').forEach(item => {
+          item.classList.remove('active');
+        });
+        event.target.closest('.nav-item').classList.add('active');
+      }
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      loadKeys();
+      loadDailyKey();
+      updateStats();
+      
+      // Restore sidebar state
+      const sidebarCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+      if (sidebarCollapsed) {
+        toggleSidebar();
+      }
+      
+      // Refresh every 10 seconds
+      setInterval(() => {
+        if (!document.getElementById('searchKey').value) {
+          loadKeys();
+          updateStats();
+        }
+      }, 10000);
+    });
+  </script>
+</body>
+
+</html>

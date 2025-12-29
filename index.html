@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Cen iOS - Link Cài Tốc Độ Cao</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="styles.css" />
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+</head>
+
+<body>
+  <button class="toggle-theme" onclick="toggleTheme()">🌙 Chuyển nền</button>
+
+  <div id="notification" class="notification hidden">
+    <div class="notification-content">
+      <span class="notification-icon">🔔</span>
+      <span class="notification-text"></span>
+      <button class="notification-close" onclick="closeNotification()">×</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <header class="header">
+      <h1>🎮 Cen iOS Store</h1>
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-icon">👥</span>
+          <span class="stat-label">Online: <strong id="onlineCount">0</strong></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">📊</span>
+          <span class="stat-label">Tổng tải: <strong id="totalDownloads">0</strong></span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-icon">🔥</span>
+          <span class="stat-label">Hôm nay: <strong id="todayDownloads">0</strong></span>
+        </div>
+      </div>
+    </header>
+
+    <!-- GAME ICONS GRID -->
+    <div class="games-grid">
+      <div class="game-icon-card" onclick="openGameSidebar('pubg')">
+        <img src="icon-120.png" alt="PUBG">
+        <span class="game-name">PUBG</span>
+      </div>
+      <div class="game-icon-card" onclick="openGameSidebar('aov')">
+        <img src="Aov.png" alt="AOV">
+        <span class="game-name">AOV</span>
+      </div>
+    </div>
+
+    <!-- 🔥 FEATURED DAILY KEY SECTION -->
+    <div id="dailyKeyBanner" class="daily-key-banner" style="display: none;">
+      <div class="daily-key-content">
+        <div class="daily-key-header">
+          <h2>🔥 KEY MIỄN PHÍ HÔM NAY</h2>
+          <span class="daily-key-tag">Limited Time</span>
+        </div>
+        
+        <div class="daily-key-info">
+          <div class="daily-key-app">
+            <span class="app-badge" id="dailyKeyAppBadge">PUBG</span>
+          </div>
+          
+          <div class="daily-key-details">
+            <div class="daily-key-code">
+              <span class="key-label">🔑 Mã:</span>
+              <code class="key-value" id="dailyKeyCodeDisplay">Loading...</code>
+              <button class="btn-copy-daily" onclick="copyDailyKeyFromWebsite()">📋 Copy</button>
+            </div>
+            
+            <div class="daily-key-timer">
+              <span class="timer-label">⏱️ Còn:</span>
+              <span class="timer-value" id="dailyKeyCountdown">Loading...</span>
+            </div>
+            
+            <div class="daily-key-meta">
+              <span class="meta-item">📊 <span id="dailyKeyUsed">0</span>/<span id="dailyKeyMax">50</span> used</span>
+              <span class="meta-item">⏳ <span id="dailyKeyDuration">6</span>h duration</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="daily-key-action">
+          <button class="btn btn-large" onclick="activateDailyKey()">🚀 KÍCH HOẠT KEY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME SIDEBAR (Hidden by default) -->
+    <div class="game-sidebar" id="gameSidebar">
+      <div class="sidebar-overlay" onclick="closeGameSidebar()"></div>
+      <div class="sidebar-content" id="sidebarContent">
+        <!-- Content will be loaded dynamically -->
+      </div>
+    </div>
+
+    <div class="card" data-app="pubg" style="display: none;">
+      <img class="card-banner" src="banner.jpg" alt="FunTap PUBG Banner">
+      
+      <div class="card-content">
+        <img class="card-icon" src="icon-120.png" alt="App Icon">
+        
+        <div class="card-meta">
+          <h2>FunTap PUBG</h2>
+          
+          <div class="card-info">
+            <strong>Key Free:</strong> 
+            <code class="copy-code" id="copyText" onclick="copyKey(this)">
+              CeniOs-hour-ijEXMWqmg1qyTa1d
+            </code>
+            <br>
+            <strong>Thời Gian:</strong> 
+            <div class="countdown-timer" data-endtime="3">
+              <span class="timer-icon">⏱️</span>
+              <span class="timer-text">Đang tải...</span>
+            </div>
+            <br>
+            <strong>Version:</strong> 4.1
+            <br>
+            <strong>Hiện Trạng:</strong> 
+            <span class="status-badge">Safe - Chơi Được Aim</span>
+          </div>
+
+          <div class="app-stats">
+            <span class="app-stat">⭐ <span id="rating-pubg">4.8</span>/5 (<span id="rating-count-pubg">0</span>)</span>
+            <span class="app-stat">📥 <span class="download-count" data-app="pubg">0</span> lượt tải</span>
+            <span class="app-stat">🔥 Hot</span>
+          </div>
+
+          <div class="prices">
+            <div class="price-item">Ngày: <del>80k</del> <strong>30k</strong></div>
+            <div class="price-item">Tuần: <del>300k</del> <strong>150k</strong></div>
+            <div class="price-item">Tháng: <del>800k</del> <strong>350k</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <a class="btn" href="itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/app.plist" onclick="handleInstall(this, 'pubg'); return true;">
+          📥 Cài đặt
+        </a>
+        <button class="btn btn-favorite" onclick="toggleFavorite('pubg')">
+          <span class="favorite-icon" id="fav-pubg">🤍</span> Yêu thích
+        </button>
+        <a class="btn" href="https://hackmod.vn" target="_blank">
+          🔑 Lấy Key (3k)
+        </a>
+        <a class="btn" href="https://baontq.xyz/xiao.php?code=073066d2-230a-4f8b-aa45-57dbfa9b8fdc" target="_blank">
+          🔑 FunLink 5H Free (Vượt Link 2 lần )
+        </a>
+        <a class="btn" href="https://baontq.xyz/xiao.php?code=142f23d8-f858-40f4-a0ca-4b8f0872c8e3" target="_blank">
+          🔑 Lấy Mã 5H Free (Vượt Link 2 Lần )
+        </a>
+      </div>
+<!-- 
+      <div class="reviews-section">
+        <h3>💬 Đánh giá & Review</h3>
+        <div class="rating-input">
+          <div class="stars" data-app="pubg">
+            <span class="star" data-rating="1">⭐</span>
+            <span class="star" data-rating="2">⭐</span>
+            <span class="star" data-rating="3">⭐</span>
+            <span class="star" data-rating="4">⭐</span>
+            <span class="star" data-rating="5">⭐</span>
+          </div>
+          <input type="text" class="review-input" placeholder="Viết đánh giá của bạn..." data-app="pubg">
+          <button class="btn-review" onclick="submitReview('pubg')">Gửi</button>
+        </div>
+        <div class="reviews-list" id="reviews-pubg"></div>
+      </div>
+    </div> -->
+
+    <!-- <div class="card" data-app="newapp">
+      <img class="card-banner" src="icon-513.png" alt="App Mới Banner">
+      <span class="new-badge">🆕 MỚI</span>
+      
+      <div class="card-content">
+        <img class="card-icon" src="icon-120.png" alt="App Icon">
+        
+        <div class="card-meta">
+          <h2>FunTap Ko Giật</h2>
+          
+          <div class="card-info">
+            <strong>Key Free:</strong> 
+            <code class="copy-code" onclick="copyKey(this)">
+              NewApp-Key-ABC123XYZ
+            </code>
+            <br>
+            <strong>Thời Gian:</strong> 
+            <div class="countdown-timer" data-endtime="6">
+              <span class="timer-icon">⏱️</span>
+              <span class="timer-text">Đang tải...</span>
+            </div>
+            <br>
+            <strong>Version:</strong> 1.0
+            <br>
+            <strong>Hiện Trạng:</strong> 
+            <span class="status-badge">An Toàn</span>
+          </div>
+
+          <div class="app-stats">
+            <span class="app-stat">⭐ 4.9/5</span>
+            <span class="app-stat">📥 <span class="download-count">8,521</span> lượt tải</span>
+          </div>
+
+          <div class="prices">
+            <div class="price-item">Ngày: <del>50k</del> <strong>25k</strong></div>
+            <div class="price-item">Tuần: <del>200k</del> <strong>100k</strong></div>
+            <div class="price-item">Tháng: <del>600k</del> <strong>300k</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <a class="btn" href="itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/Kogiat.plist" onclick="handleInstall(this, 'newapp')">
+          📥 Cài đặt
+        </a>
+        <a class="btn" href="https://hackmod.vn" target="_blank">
+          🔑 Lấy Key (1k-3k)
+        </a>
+      </div>
+
+      <div class="reviews-section">
+        <h3>💬 Đánh giá & Review</h3>
+        <div class="rating-input">
+          <div class="stars" data-app="newapp">
+            <span class="star" data-rating="1">⭐</span>
+            <span class="star" data-rating="2">⭐</span>
+            <span class="star" data-rating="3">⭐</span>
+            <span class="star" data-rating="4">⭐</span>
+            <span class="star" data-rating="5">⭐</span>
+          </div>
+          <input type="text" class="review-input" placeholder="Viết đánh giá của bạn..." data-app="newapp">
+          <button class="btn-review" onclick="submitReview('newapp')">Gửi</button>
+        </div>
+        <div class="reviews-list" id="reviews-newapp"></div>
+      </div>
+    </div> -->
+
+    <div class="card" data-app="aov" style="display: none;">
+      <img class="card-banner" src="Aov.png" alt="Cen Map AOV Banner">
+      
+      <div class="card-content">
+        <img class="card-icon" src="icon-120.png" alt="App Icon">
+        
+        <div class="card-meta">
+          <h2>Cen Map AOV 1.6.0</h2>
+          
+          <div class="card-info">
+            <strong>Version:</strong> 4.1
+            <br>
+            <strong>Bundle ID:</strong> <code>com.soimap.game.kvgn.map</code>
+            <br>
+            <strong>Hiện Trạng:</strong> 
+            <span class="status-badge">An Toàn</span>
+          </div>
+
+          <div class="app-stats">
+            <span class="app-stat">⭐ <span id="rating-aov">4.7</span>/5 (<span id="rating-count-aov">0</span>)</span>
+            <span class="app-stat">📥 <span class="download-count" data-app="aov">0</span> lượt tải</span>
+          </div>
+
+          <div class="prices">
+            <div class="price-item">Ngày: <del>50k</del> <strong>35k</strong></div>
+            <div class="price-item">Tuần: <del>150k</del> <strong>80k</strong></div>
+            <div class="price-item">Tháng: <del>350k</del> <strong>200k</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <a class="btn" href="itms-services://?action=download-manifest&url=https://k3ndzy.github.io/LinkTaiPUBG/lienquanvu.plist" onclick="handleInstall(this, 'aov'); return true;">
+          📥 Cài đặt
+        </a>
+        <button class="btn btn-favorite" onclick="toggleFavorite('aov')">
+          <span class="favorite-icon" id="fav-aov">🤍</span> Yêu thích
+        </button>
+        <a class="btn" href="https://hackmod.vn" target="_blank">
+          💳 Mua Key Trực Tiếp
+        </a>
+        <a class="btn" href="https://link4sub.com/9WwM" target="_blank">
+          🎁 Fun Link 1 Ngày (Free)
+        </a>
+        <a class="btn" href="https://baontq.xyz/xiao.php?code=6c846ca8-61cd-4a25-a6fa-884debe29665" target="_blank">
+          🎁 Lấy Mã 1 Ngày (Free)
+        </a>
+      </div>
+
+      <!-- <div class="reviews-section">
+        <h3>💬 Đánh giá & Review</h3>
+        <div class="rating-input">
+          <div class="stars" data-app="aov">
+            <span class="star" data-rating="1">⭐</span>
+            <span class="star" data-rating="2">⭐</span>
+            <span class="star" data-rating="3">⭐</span>
+            <span class="star" data-rating="4">⭐</span>
+            <span class="star" data-rating="5">⭐</span>
+          </div>
+          <input type="text" class="review-input" placeholder="Viết đánh giá của bạn..." data-app="aov">
+          <button class="btn-review" onclick="submitReview('aov')">Gửi</button>
+        </div>
+        <div class="reviews-list" id="reviews-aov"></div>
+      </div>
+    </div> -->
+
+    <div class="trust-guide">
+      <h2>📱 Hướng Dẫn Tin Cậy</h2>
+      <div class="steps">
+        <div class="step">
+          <p><strong>Bước 1</strong></p>
+          <img src="hd1.png" alt="Bước 1 - Mở Settings">
+        </div>
+        <div class="step">
+          <p><strong>Bước 2</strong></p>
+          <img src="hd2.png" alt="Bước 2 - Chọn General">
+        </div>
+        <div class="step">
+          <p><strong>Bước 3</strong></p>
+          <img src="hd3.png" alt="Bước 3 - Tin cậy">
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Validation Modal -->
+    <div id="keyModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center;">
+      <div style="background: white; padding: 32px; border-radius: 16px; max-width: 400px; width: 90%; box-shadow: 0 10px 40px rgba(0,0,0,0.3); animation: slideUp 0.3s ease;">
+        <h2 style="margin-bottom: 16px; font-size: 24px;">🔑 Nhập Key Kích Hoạt</h2>
+        <p style="color: #666; margin-bottom: 20px; font-size: 14px;">Nhập key free từ link bên dưới để kích hoạt ứng dụng</p>
+        
+        <input type="text" id="keyInput" placeholder="Ví dụ: CENIOS-ABC123XYZ" 
+               style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-bottom: 16px;" />
+        
+        <div id="keyValidation" style="margin-bottom: 16px;"></div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <button onclick="validateKey()" style="padding: 12px; background: #1a73e8; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s;">✅ Xác Nhận</button>
+          <button onclick="closeKeyModal()" style="padding: 12px; background: #f1f1f1; color: #333; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s;">❌ Đóng</button>
+        </div>
+        
+        <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center; font-size: 12px; color: #666;">
+          ⚠️ <strong>Không có key?</strong> <a href="https://t.me/CenIOSMOD" target="_blank" style="color: #1a73e8; text-decoration: none;">Lấy key free tại đây</a>
+        </p>
+      </div>
+    </div>
+
+    <style>
+      @keyframes slideUp {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+      
+      .loading {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #1a73e8;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+
+    <footer class="footer">
+      <p>
+        📱 Mở bằng Safari (iPhone/iPad) → Nhấn nút Cài đặt
+      </p>
+      <p>
+        ⭐️ <strong>Zalo Admin:</strong> <a href="https://zalo.me/420773099399" target="_blank">Cen iOS</a>
+        <br>
+        📲 <strong>Telegram:</strong> <a href="https://t.me/cenios" target="_blank">Cen iOS</a>
+        <br>
+        🎀 <strong>Nhóm Lấy Key Free:</strong> <a href="https://t.me/CenIOSMOD" target="_blank">Click vào đây</a>
+      </p>
+    </footer>
+  </div>
+
+  <script>
+    // Firebase Configuration
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "cenios-store.firebaseapp.com",
+      databaseURL: "https://cenios-store-default-rtdb.firebaseio.com",
+      projectId: "cenios-store",
+      storageBucket: "cenios-store.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef123456"
+    };
+
+    // Initialize Firebase
+    let db, analytics;
+    let firebaseEnabled = false;
+    
+    try {
+      if (typeof firebase !== 'undefined') {
+        firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
+        analytics = firebase.analytics();
+        firebaseEnabled = true;
+        console.log('✅ Firebase initialized successfully');
+      }
+    } catch (error) {
+      console.warn('⚠️ Firebase not available, using fallback mode:', error.message);
+      firebaseEnabled = false;
+    }
+
+    let selectedRatings = { pubg: 0, newapp: 0, aov: 0 };
+    let sessionId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const btn = document.querySelector('.toggle-theme');
+      btn.textContent = document.body.classList.contains('dark') ? '☀️ Chuyển nền' : '🌙 Chuyển nền';
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    }
+
+    function copyKey(element) {
+      const text = element.textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        alert('✅ Đã copy key!\n\n' + text + '\n\nHãy dán vào ứng dụng');
+      }).catch(() => {
+        alert('❌ Không thể copy. Vui lòng copy thủ công.');
+      });
+    }
+
+    function handleInstall(button, appId) {
+      const originalText = button.innerHTML;
+      button.innerHTML = '⏳ Đang tải...';
+      button.style.pointerEvents = 'none';
+      
+      // Track installation
+      trackInstallation(appId);
+      incrementDownload(appId);
+      
+      // Log to analytics
+      if (firebaseEnabled && analytics) {
+        try {
+          analytics.logEvent('app_install', {
+            app_id: appId,
+            timestamp: new Date().toISOString()
+          });
+        } catch (error) {
+          console.warn('Analytics error:', error);
+        }
+      }
+      
+      setTimeout(() => {
+        button.innerHTML = '✅ Đã bắt đầu tải';
+        setTimeout(() => {
+          button.innerHTML = originalText;
+          button.style.pointerEvents = 'auto';
+        }, 1500);
+      }, 1000);
+    }
+
+    function trackInstallation(appId) {
+      if (!firebaseEnabled) return;
+      
+      try {
+        const timestamp = Date.now();
+        const dateKey = new Date().toISOString().split('T')[0];
+        
+        // Increment total downloads
+        db.ref(`stats/downloads/${appId}/total`).transaction((current) => {
+          return (current || 0) + 1;
+        });
+        
+        // Increment today's downloads
+        db.ref(`stats/downloads/${appId}/daily/${dateKey}`).transaction((current) => {
+          return (current || 0) + 1;
+        });
+        
+        // Log installation event
+        db.ref(`stats/installations/${appId}`).push({
+          timestamp: timestamp,
+          sessionId: sessionId,
+          date: dateKey
+        });
+      } catch (error) {
+        console.warn('Track installation error:', error);
+      }
+    }
+
+    function incrementDownload(appId) {
+      const countElem = document.querySelector(`.download-count[data-app="${appId}"]`);
+      if (countElem) {
+        let count = parseInt(countElem.textContent.replace(/,/g, '') || '0');
+        count++;
+        countElem.textContent = count.toLocaleString();
+        
+        // Animate the number
+        countElem.style.transform = 'scale(1.2)';
+        countElem.style.color = 'var(--success-color)';
+        setTimeout(() => {
+          countElem.style.transform = 'scale(1)';
+          countElem.style.color = '';
+        }, 300);
+      }
+      
+      updateTotalDownloads();
+    }
+
+    function updateTotalDownloads() {
+      let total = 0;
+      document.querySelectorAll('.download-count').forEach(elem => {
+        total += parseInt(elem.textContent.replace(/,/g, '') || '0');
+      });
+      document.getElementById('totalDownloads').textContent = total.toLocaleString();
+    }
+
+    function loadDownloadStats() {
+      if (!firebaseEnabled) {
+        // Fallback to local numbers
+        loadLocalDownloadStats();
+        return;
+      }
+      
+      try {
+        const dateKey = new Date().toISOString().split('T')[0];
+        
+        // Load total downloads for each app
+        ['pubg', 'aov'].forEach(appId => {
+          db.ref(`stats/downloads/${appId}/total`).once('value', (snapshot) => {
+            const count = snapshot.val() || 0;
+            const elem = document.querySelector(`.download-count[data-app="${appId}"]`);
+            if (elem) {
+              elem.textContent = count.toLocaleString();
+            }
+          });
+        });
+        
+        // Load today's total downloads
+        let todayTotal = 0;
+        const promises = ['pubg', 'aov'].map(appId => 
+          db.ref(`stats/downloads/${appId}/daily/${dateKey}`).once('value')
+        );
+        
+        Promise.all(promises).then(snapshots => {
+          snapshots.forEach(snapshot => {
+            todayTotal += snapshot.val() || 0;
+          });
+          document.getElementById('todayDownloads').textContent = todayTotal.toLocaleString();
+        });
+        
+      } catch (error) {
+        console.warn('Load stats error:', error);
+        loadLocalDownloadStats();
+      }
+    }
+
+    function loadLocalDownloadStats() {
+      // Fallback với số liệu local
+      const stats = {
+        pubg: parseInt(localStorage.getItem('downloads_pubg') || '15234'),
+        aov: parseInt(localStorage.getItem('downloads_aov') || '12890')
+      };
+      
+      Object.keys(stats).forEach(appId => {
+        const elem = document.querySelector(`.download-count[data-app="${appId}"]`);
+        if (elem) elem.textContent = stats[appId].toLocaleString();
+      });
+      
+      updateTotalDownloads();
+    }
+
+    function updateOnlineCount() {
+      if (!firebaseEnabled) {
+        // Fallback: realistic số dựa trên thời gian
+        const hour = new Date().getHours();
+        let baseCount;
+        
+        if (hour >= 19 && hour <= 23) {
+          baseCount = 180; // Prime time
+        } else if (hour >= 12 && hour <= 18) {
+          baseCount = 140;
+        } else if (hour >= 6 && hour <= 11) {
+          baseCount = 100;
+        } else {
+          baseCount = 60; // Late night
+        }
+        
+        const variance = Math.floor(Math.random() * 30) - 15;
+        const count = baseCount + variance;
+        document.getElementById('onlineCount').textContent = count;
+        return;
+      }
+      
+      try {
+        // Register this session as online
+        const sessionRef = db.ref(`sessions/${sessionId}`);
+        sessionRef.set({
+          online: true,
+          lastSeen: firebase.database.ServerValue.TIMESTAMP
+        });
+        
+        // Remove on disconnect
+        sessionRef.onDisconnect().remove();
+        
+        // Count active sessions (last 5 minutes)
+        const fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
+        db.ref('sessions').orderByChild('lastSeen').startAt(fiveMinutesAgo).once('value', (snapshot) => {
+          const count = snapshot.numChildren();
+          document.getElementById('onlineCount').textContent = count;
+        });
+        
+        // Update presence every 30 seconds
+        setInterval(() => {
+          sessionRef.update({ lastSeen: firebase.database.ServerValue.TIMESTAMP });
+        }, 30000);
+        
+      } catch (error) {
+        console.warn('Online count error:', error);
+      }
+    }
+
+    function initCountdowns() {
+      document.querySelectorAll('.countdown-timer').forEach(timer => {
+        const hours = parseInt(timer.getAttribute('data-endtime'));
+        const endTime = new Date().getTime() + (hours * 60 * 60 * 1000);
+        
+        const updateTimer = () => {
+          const now = new Date().getTime();
+          const distance = endTime - now;
+          
+          if (distance < 0) {
+            timer.querySelector('.timer-text').textContent = 'Hết hạn';
+            return;
+          }
+          
+          const h = Math.floor(distance / (1000 * 60 * 60));
+          const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const s = Math.floor((distance % (1000 * 60)) / 1000);
+          
+          timer.querySelector('.timer-text').textContent = 
+            `${h}h ${m}m ${s}s còn lại`;
+        };
+        
+        updateTimer();
+        setInterval(updateTimer, 1000);
+      });
+    }
+
+    function submitReview(appId) {
+      const rating = selectedRatings[appId];
+      const input = document.querySelector(`.review-input[data-app="${appId}"]`);
+      const text = input.value.trim();
+      
+      if (rating === 0) {
+        showNotification('⚠️ Vui lòng chọn số sao đánh giá!', 3000);
+        return;
+      }
+      
+      if (text === '' || text.length < 10) {
+        showNotification('⚠️ Đánh giá phải có ít nhất 10 ký tự!', 3000);
+        return;
+      }
+      
+      const review = {
+        rating: rating,
+        text: text,
+        timestamp: Date.now(),
+        date: new Date().toLocaleDateString('vi-VN'),
+        time: new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+        sessionId: sessionId
+      };
+      
+      if (firebaseEnabled) {
+        // Save to Firebase
+        try {
+          db.ref(`reviews/${appId}`).push(review).then(() => {
+            showNotification('✅ Cảm ơn bạn đã đánh giá!', 3000);
+            input.value = '';
+            selectedRatings[appId] = 0;
+            resetStars(appId);
+            loadReviews(appId);
+            updateAppRating(appId);
+          }).catch(error => {
+            console.error('Review save error:', error);
+            saveReviewLocal(appId, review);
+          });
+        } catch (error) {
+          saveReviewLocal(appId, review);
+        }
+      } else {
+        saveReviewLocal(appId, review);
+      }
+    }
+
+    function saveReviewLocal(appId, review) {
+      const reviews = JSON.parse(localStorage.getItem(`reviews_${appId}`) || '[]');
+      reviews.unshift(review);
+      localStorage.setItem(`reviews_${appId}`, JSON.stringify(reviews.slice(0, 50)));
+      
+      const input = document.querySelector(`.review-input[data-app="${appId}"]`);
+      if (input) input.value = '';
+      selectedRatings[appId] = 0;
+      resetStars(appId);
+      loadReviews(appId);
+      showNotification('✅ Đánh giá của bạn đã được lưu!', 3000);
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function loadReviews(appId) {
+      const container = document.getElementById(`reviews-${appId}`);
+      if (!container) return;
+      
+      if (firebaseEnabled) {
+        try {
+          db.ref(`reviews/${appId}`).orderByChild('timestamp').limitToLast(20).once('value', (snapshot) => {
+            const reviews = [];
+            snapshot.forEach((childSnapshot) => {
+              reviews.unshift(childSnapshot.val());
+            });
+            displayReviews(appId, reviews, container);
+          });
+          return;
+        } catch (error) {
+          console.warn('Load reviews error:', error);
+        }
+      }
+      
+      // Fallback to local storage
+      const reviews = JSON.parse(localStorage.getItem(`reviews_${appId}`) || '[]');
+      displayReviews(appId, reviews, container);
+    }
+
+    function displayReviews(appId, reviews, container) {
+      if (reviews.length === 0) {
+        container.innerHTML = '<p class="no-reviews">Chưa có đánh giá nào. Hãy là người đầu tiên! 🌟</p>';
+        return;
+      }
+      
+      container.innerHTML = reviews.slice(0, 20).map(review => `
+        <div class="review-item">
+          <div class="review-header">
+            <span class="review-stars">${'⭐'.repeat(review.rating)}</span>
+            <span class="review-date">${escapeHtml(review.date)} ${escapeHtml(review.time)}</span>
+          </div>
+          <p class="review-text">${escapeHtml(review.text)}</p>
+        </div>
+      `).join('');
+    }
+
+    function updateAppRating(appId) {
+      if (!firebaseEnabled) return;
+      
+      try {
+        db.ref(`reviews/${appId}`).once('value', (snapshot) => {
+          let totalRating = 0;
+          let count = 0;
+          
+          snapshot.forEach((childSnapshot) => {
+            const review = childSnapshot.val();
+            if (review.rating) {
+              totalRating += review.rating;
+              count++;
+            }
+          });
+          
+          if (count > 0) {
+            const avgRating = (totalRating / count).toFixed(1);
+            const ratingElem = document.getElementById(`rating-${appId}`);
+            const countElem = document.getElementById(`rating-count-${appId}`);
+            
+            if (ratingElem) ratingElem.textContent = avgRating;
+            if (countElem) countElem.textContent = count;
+          }
+        });
+      } catch (error) {
+        console.warn('Update rating error:', error);
+      }
+    }
+
+    function resetStars(appId) {
+      const stars = document.querySelectorAll(`.stars[data-app="${appId}"] .star`);
+      stars.forEach(star => star.classList.remove('selected'));
+    }
+
+    function showNotification(message, duration = 5000) {
+      const notification = document.getElementById('notification');
+      notification.querySelector('.notification-text').textContent = message;
+      notification.classList.remove('hidden');
+      notification.classList.add('show');
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+          notification.classList.add('hidden');
+        }, 300);
+      }, duration);
+    }
+
+    function toggleFavorite(appId) {
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      const icon = document.getElementById(`fav-${appId}`);
+      
+      if (favorites.includes(appId)) {
+        // Remove from favorites
+        const index = favorites.indexOf(appId);
+        favorites.splice(index, 1);
+        icon.textContent = '🤍';
+        showNotification('💔 Đã xóa khỏi yêu thích', 2000);
+      } else {
+        // Add to favorites
+        favorites.push(appId);
+        icon.textContent = '❤️';
+        showNotification('❤️ Đã thêm vào yêu thích', 2000);
+      }
+      
+      localStorage.setItem('favorites', JSON.stringify(favorites));
+    }
+
+    function loadFavorites() {
+      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+      favorites.forEach(appId => {
+        const icon = document.getElementById(`fav-${appId}`);
+        if (icon) icon.textContent = '❤️';
+      });
+    }
+
+    function closeNotification() {
+      document.getElementById('notification').classList.add('hidden');
+    }
+
+    // Cleanup old sessions periodically
+    function cleanupOldSessions() {
+      if (!firebaseEnabled) return;
+      
+      try {
+        const fiveMinutesAgo = Date.now() - (5 * 60 * 1000);
+        db.ref('sessions').orderByChild('lastSeen').endAt(fiveMinutesAgo).once('value', (snapshot) => {
+          snapshot.forEach((childSnapshot) => {
+            childSnapshot.ref.remove();
+          });
+        });
+      } catch (error) {
+        console.warn('Cleanup error:', error);
+      }
+    }
+
+    // Error handling
+    window.addEventListener('error', (event) => {
+      console.error('Global error:', event.error);
+      // Don't show to user, just log
+    });
+
+    window.addEventListener('unhandledrejection', (event) => {
+      console.error('Unhandled promise rejection:', event.reason);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Load theme
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+        document.querySelector('.toggle-theme').textContent = '☀️ Chuyển nền';
+      }
+      
+      // Initialize all features
+      initCountdowns();
+      loadDownloadStats();
+      updateOnlineCount();
+      loadFavorites();
+      
+      // Load reviews and ratings
+      ['pubg', 'aov'].forEach(appId => {
+        loadReviews(appId);
+        updateAppRating(appId);
+      });
+      
+      // Setup star rating system
+      document.querySelectorAll('.stars').forEach(starsContainer => {
+        const appId = starsContainer.getAttribute('data-app');
+        starsContainer.querySelectorAll('.star').forEach(star => {
+          star.addEventListener('click', () => {
+            const rating = parseInt(star.getAttribute('data-rating'));
+            selectedRatings[appId] = rating;
+            
+            starsContainer.querySelectorAll('.star').forEach((s, index) => {
+              if (index < rating) {
+                s.classList.add('selected');
+              } else {
+                s.classList.remove('selected');
+              }
+            });
+          });
+        });
+      });
+      
+      // Update online count regularly
+      setInterval(updateOnlineCount, 60000);
+      
+      // Cleanup old sessions every 5 minutes
+      setInterval(cleanupOldSessions, 300000);
+      
+      // Welcome notification
+      setTimeout(() => {
+        if (firebaseEnabled) {
+          showNotification('🎉 Chào mừng! Tất cả dữ liệu được đồng bộ real-time.', 4000);
+        } else {
+          showNotification('📱 Chào mừng đến với Cen iOS Store!', 3000);
+        }
+      }, 1500);
+      
+      // Track page view
+      if (firebaseEnabled && analytics) {
+        try {
+          analytics.logEvent('page_view', {
+            page_title: 'Cen iOS Store',
+            page_location: window.location.href
+          });
+        } catch (error) {
+          console.warn('Analytics error:', error);
+        }
+      }
+    });
+
+    // ========== KEY VALIDATION SYSTEM ==========
+    let userDeviceId = 'device_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    let activeKeys = {};
+
+    function openKeyModal() {
+      document.getElementById('keyModal').style.display = 'flex';
+      document.getElementById('keyInput').focus();
+    }
+
+    function closeKeyModal() {
+      document.getElementById('keyModal').style.display = 'none';
+      document.getElementById('keyInput').value = '';
+      document.getElementById('keyValidation').innerHTML = '';
+    }
+
+    function validateKey() {
+      if (!firebaseEnabled) {
+        showNotification('❌ System không kết nối Firebase', 3000);
+        return;
+      }
+
+      const keyCode = document.getElementById('keyInput').value.toUpperCase().trim();
+      if (!keyCode) {
+        showNotification('❌ Vui lòng nhập key!', 3000);
+        return;
+      }
+
+      document.getElementById('keyValidation').innerHTML = '<div class="loading" style="margin: 0 auto;"></div>';
+
+      try {
+        db.ref(`keys/${keyCode}`).once('value', (snapshot) => {
+          const validationDiv = document.getElementById('keyValidation');
+
+          if (!snapshot.exists()) {
+            validationDiv.innerHTML = '<p style="color: #d32f2f; font-weight: 600;">❌ Key không hợp lệ hoặc không tồn tại</p>';
+            return;
+          }
+
+          const key = snapshot.val();
+          const now = Date.now();
+
+          // Validate key
+          if (key.status !== 'active') {
+            validationDiv.innerHTML = '<p style="color: #d32f2f; font-weight: 600;">❌ Key đã hết hiệu lực</p>';
+            return;
+          }
+
+          if (now > key.expiry) {
+            validationDiv.innerHTML = '<p style="color: #d32f2f; font-weight: 600;">❌ Key đã hết hạn</p>';
+            return;
+          }
+
+          if (key.used >= key.maxUses) {
+            validationDiv.innerHTML = '<p style="color: #d32f2f; font-weight: 600;">❌ Key đã dùng hết số lần</p>';
+            return;
+          }
+
+          // Key valid!
+          activeKeys[keyCode] = key;
+          localStorage.setItem('activeKey', keyCode);
+          localStorage.setItem('keyExpiry', key.expiry);
+
+          // Increment usage
+          db.ref(`keys/${keyCode}/used`).transaction(current => (current || 0) + 1);
+          
+          // Log usage
+          db.ref(`keys/${keyCode}/lastUsedBy`).set({
+            deviceId: userDeviceId,
+            timestamp: now,
+            date: new Date().toLocaleString('vi-VN')
+          });
+
+          const remainingTime = Math.round((key.expiry - now) / (1000 * 60 * 60));
+          validationDiv.innerHTML = `
+            <div style="background: #c8e6c9; color: #2e7d32; padding: 12px; border-radius: 8px; border-left: 4px solid #4caf50; font-weight: 600;">
+              ✅ Kích hoạt thành công!<br>
+              <span style="font-size: 12px; margin-top: 4px; display: block;">Hết hạn trong ${remainingTime}h</span>
+            </div>
+          `;
+
+          setTimeout(() => {
+            showNotification('✅ Ứng dụng đã kích hoạt!', 3000);
+            closeKeyModal();
+          }, 1500);
+        });
+      } catch (error) {
+        console.error('Key validation error:', error);
+        showNotification('❌ Lỗi khi kiểm tra key: ' + error.message, 3000);
+      }
+    }
+
+    function checkKeyExpiry() {
+      const keyExpiry = localStorage.getItem('keyExpiry');
+      if (keyExpiry && Date.now() > parseInt(keyExpiry)) {
+        localStorage.removeItem('activeKey');
+        localStorage.removeItem('keyExpiry');
+        showNotification('⚠️ Key của bạn đã hết hạn', 3000);
+      }
+    }
+
+    // Check key expiry every minute
+    setInterval(checkKeyExpiry, 60000);
+
+    // Add keyboard support
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' && document.getElementById('keyModal').style.display === 'flex') {
+        validateKey();
+      }
+      if (event.key === 'Escape') {
+        closeKeyModal();
+      }
+    });
+
+    // ========== DAILY KEY DISPLAY SYSTEM ==========
+    let dailyKeyUpdateInterval = null;
+
+    async function loadAndDisplayDailyKey() {
+      if (!firebaseEnabled) {
+        console.log('Firebase not enabled, skipping daily key load');
+        return;
+      }
+
+      try {
+        const todayDate = new Date().toISOString().split('T')[0];
+        const snapshot = await db.ref(`dailyKeys/${todayDate}`).once('value');
+
+        if (snapshot.exists()) {
+          const key = snapshot.val();
+          displayDailyKeyBanner(key);
+          
+          // Update countdown timer
+          clearInterval(dailyKeyUpdateInterval);
+          dailyKeyUpdateInterval = setInterval(() => {
+            updateDailyKeyCountdown(key.expiry);
+          }, 1000);
+          
+          updateDailyKeyCountdown(key.expiry);
+        } else {
+          // Hide banner if no daily key
+          document.getElementById('dailyKeyBanner').style.display = 'none';
+        }
+      } catch (error) {
+        console.error('Error loading daily key:', error);
+      }
+    }
+
+    function displayDailyKeyBanner(key) {
+      const banner = document.getElementById('dailyKeyBanner');
+      if (!banner) return;
+
+      document.getElementById('dailyKeyCodeDisplay').textContent = key.code;
+      document.getElementById('dailyKeyAppBadge').textContent = 
+        key.app === 'pubg' ? 'FunTap PUBG' : 'Cen Map AOV';
+      document.getElementById('dailyKeyUsed').textContent = key.used || 0;
+      document.getElementById('dailyKeyMax').textContent = key.maxUses;
+      document.getElementById('dailyKeyDuration').textContent = key.duration;
+      
+      banner.style.display = 'block';
+      banner.style.animation = 'slideUp 0.6s ease-out';
+    }
+
+    function updateDailyKeyCountdown(expiryTime) {
+      const now = Date.now();
+      const remaining = expiryTime - now;
+
+      if (remaining <= 0) {
+        document.getElementById('dailyKeyCountdown').textContent = '⏰ Hết hạn';
+        document.getElementById('dailyKeyBanner').style.display = 'none';
+        clearInterval(dailyKeyUpdateInterval);
+        return;
+      }
+
+      const hours = Math.floor(remaining / (1000 * 60 * 60));
+      const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+      document.getElementById('dailyKeyCountdown').textContent = 
+        `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    function copyDailyKeyFromWebsite() {
+      const keyCode = document.getElementById('dailyKeyCodeDisplay').textContent;
+      navigator.clipboard.writeText(keyCode).then(() => {
+        showNotification('✅ Đã copy key! Dán vào ô đầu tiên để kích hoạt.', 3000);
+      }).catch(() => {
+        showNotification('❌ Không thể copy', 3000);
+      });
+    }
+
+    function activateDailyKey() {
+      const keyCode = document.getElementById('dailyKeyCodeDisplay').textContent;
+      if (keyCode && keyCode !== 'Loading...') {
+        document.getElementById('keyInput').value = keyCode;
+        openKeyModal();
+      }
+    }
+
+    // Load daily key on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(() => {
+        loadAndDisplayDailyKey();
+        
+        // Check for new daily keys every 30 seconds
+        setInterval(loadAndDisplayDailyKey, 30000);
+      }, 1000);
+    });
+
+    // Setup real-time listener for daily key changes
+    if (firebaseEnabled) {
+      try {
+        const todayDate = new Date().toISOString().split('T')[0];
+        db.ref(`dailyKeys/${todayDate}`).on('value', (snapshot) => {
+          if (snapshot.exists()) {
+            displayDailyKeyBanner(snapshot.val());
+            updateDailyKeyCountdown(snapshot.val().expiry);
+          }
+        });
+      } catch (error) {
+        console.error('Error setting up daily key listener:', error);
+      }
+    }
+
+    // ========== GAME SIDEBAR FUNCTIONS ==========
+    const gameData = {
+      pubg: {
+        name: 'FunTap PUBG',
+        icon: 'icon-120.png',
+        banner: 'banner.jpg',
+        version: '4.1',
+        status: 'Safe - Chơi Được Aim',
+        key: 'CeniOs-hour-ijEXMWqmg1qyTa1d',
+        duration: 3,
+        prices: {
+          day: { old: '80k', new: '30k' },
+          week: { old: '300k', new: '150k' },
+          month: { old: '800k', new: '350k' }
+        },
+        links: {
+          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/app.plist',
+          getKey: 'https://hackmod.vn'
+        }
+      },
+      aov: {
+        name: 'Cen Map AOV',
+        icon: 'Aov.png',
+        banner: 'Aov.png',
+        version: '1.0',
+        status: 'Safe - Full Map',
+        key: 'AOV-Key-XYZ123ABC',
+        duration: 6,
+        prices: {
+          day: { old: '80k', new: '30k' },
+          week: { old: '300k', new: '150k' },
+          month: { old: '800k', new: '350k' }
+        },
+        links: {
+          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/lienquanvu.plist',
+          getKey: 'https://hackmod.vn'
+        }
+      }
+    };
+
+    function openGameSidebar(gameId) {
+      const sidebar = document.getElementById('gameSidebar');
+      const content = document.getElementById('sidebarContent');
+      const game = gameData[gameId];
+
+      if (!game) return;
+
+      content.innerHTML = `
+        <div class="sidebar-header">
+          <div class="sidebar-title">
+            <img src="${game.icon}" alt="${game.name}">
+            <span>${game.name}</span>
+          </div>
+          <button class="close-sidebar" onclick="closeGameSidebar()">×</button>
+        </div>
+
+        <div class="sidebar-section">
+          <img src="${game.banner}" style="width: 100%; border-radius: 12px; margin-bottom: 16px;">
+        </div>
+
+        <div class="sidebar-section">
+          <h3>📋 Thông Tin</h3>
+          <div style="background: #f5f5f5; padding: 16px; border-radius: 8px;">
+            <p><strong>Version:</strong> ${game.version}</p>
+            <p><strong>Hiện Trạng:</strong> <span style="color: #4caf50; font-weight: 600;">${game.status}</span></p>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>🔑 Key Free</h3>
+          <code class="copy-code" onclick="copyKey(this)" style="display: block; padding: 12px; background: #e3f2fd; border-radius: 8px; cursor: pointer; text-align: center; font-weight: 600;">
+            ${game.key}
+          </code>
+          <div class="countdown-timer" data-endtime="${game.duration}" style="margin-top: 12px; padding: 12px; background: #fff3e0; border-radius: 8px; text-align: center;">
+            <span class="timer-icon">⏱️</span>
+            <span class="timer-text">Đang tải...</span>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>💰 Bảng Giá</h3>
+          <div class="prices">
+            <div class="price-item">Ngày: <del>${game.prices.day.old}</del> <strong>${game.prices.day.new}</strong></div>
+            <div class="price-item">Tuần: <del>${game.prices.week.old}</del> <strong>${game.prices.week.new}</strong></div>
+            <div class="price-item">Tháng: <del>${game.prices.month.old}</del> <strong>${game.prices.month.new}</strong></div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <h3>⭐ Đánh Giá</h3>
+          <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 8px;">
+            <span style="font-size: 24px; font-weight: 700;">${gameId === 'pubg' ? '4.8' : '4.5'}</span>
+            <span style="color: #ffa726;">⭐⭐⭐⭐⭐</span>
+            <span style="color: #888;">(<span id="rating-count-${gameId}">0</span> đánh giá)</span>
+          </div>
+          <div style="color: #888; font-size: 14px;">
+            📥 <span class="download-count" data-app="${gameId}">0</span> lượt tải
+          </div>
+        </div>
+
+        <div class="button-group" style="margin-top: 24px;">
+          <a class="btn" href="${game.links.install}" onclick="handleInstall(this, '${gameId}'); return true;" style="width: 100%; text-align: center; display: block; margin-bottom: 12px; text-decoration: none;">
+            📥 Cài Đặt Ngay
+          </a>
+          <button class="btn btn-favorite" onclick="toggleFavorite('${gameId}')" style="width: 100%; margin-bottom: 12px;">
+            <span class="favorite-icon" id="fav-${gameId}">🤍</span> Yêu Thích
+          </button>
+          <a class="btn" href="${game.links.getKey}" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none;">
+            🔑 Lấy Key Premium (3k)
+          </a>
+        </div>
+      `;
+
+      sidebar.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      // Initialize countdown for this game
+      setTimeout(() => {
+        const timer = content.querySelector('.countdown-timer');
+        if (timer) {
+          updateTimer(timer);
+        }
+      }, 100);
+
+      // Update download count
+      const downloadCountElement = content.querySelector(`.download-count[data-app="${gameId}"]`);
+      if (downloadCountElement && window.downloadCounts) {
+        downloadCountElement.textContent = window.downloadCounts[gameId] || 0;
+      }
+    }
+
+    function closeGameSidebar() {
+      const sidebar = document.getElementById('gameSidebar');
+      sidebar.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close sidebar when pressing ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeGameSidebar();
+      }
+    });
+  </script>
+</body>
+</html>
