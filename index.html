@@ -40,7 +40,65 @@
 </head>
 
 <body>
+  <div class="support-buttons-container">
+    <a href="https://zalo.me/420773099399" target="_blank" class="support-btn-icon zalo-btn" title="Zalo Hỗ Trợ">
+      <img src="zalo-icon.png" alt="Zalo" />
+      <span class="support-label">Zalo Hỗ Trợ</span>
+    </a>
+    <a href="https://t.me/Cenios" target="_blank" class="support-btn-icon telegram-btn" title="Telegram Hỗ Trợ">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="currentColor">
+        <path d="M16 0C7.16 0 0 7.16 0 16s7.16 16 16 16 16-7.16 16-16S24.84 0 16 0zm8.26 10.67l-2.67 12.57c-.2.9-.72 1.12-1.46.7l-4.04-2.98-1.95 1.88c-.22.22-.4.4-.82.4l.29-4.14 7.54-6.82c.33-.3-.07-.46-.5-.16l-9.33 5.88-4.02-1.26c-.88-.27-.9-.88.18-1.31l15.74-6.07c.73-.27 1.37.17 1.14 1.27z"/>
+      </svg>
+      <span class="support-label">Telegram</span>
+    </a>
+    <a href="https://www.facebook.com/groups/1146932639890254/" target="_blank" class="support-btn-icon facebook-btn" title="Nhóm Facebook Chính">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+      <span class="support-label">Facebook Group</span>
+    </a>
+  </div>
+
   <button class="toggle-theme" onclick="toggleTheme()">🌙 Chuyển nền</button>
+
+  <!-- Welcome Popup -->
+  <div id="welcomePopup" class="popup-overlay">
+    <div class="popup-container">
+      <button class="popup-close-x" onclick="closeWelcomePopup()">×</button>
+      <h2 class="popup-title">Thông Báo</h2>
+      <hr class="popup-divider">
+      <div class="popup-content">
+        <div class="popup-hot-badge">
+          <svg width="60" height="60" viewBox="0 0 60 60">
+            <polygon points="30,5 35,20 50,22 38,32 42,47 30,40 18,47 22,32 10,22 25,20" fill="#4fc3f7" stroke="#0288d1" stroke-width="2"/>
+            <text x="30" y="32" text-anchor="middle" fill="#fff" font-size="12" font-weight="bold">Hot!!!</text>
+          </svg>
+        </div>
+        <h3 class="popup-highlight">Game PUBG đã cập nhật 4.2, để cài đặt Miễn Phí hãy truy cập nhóm ở dưới</h3>
+        
+        <div class="popup-zalo-links">
+          <a href="https://zalo.me/g/zgijmv816" target="_blank" class="popup-zalo-btn popup-zalo-chat">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10h5v-2h-5c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8v1.5c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5V12c0-2.76-2.24-5-5-5s-5 2.24-5 5 2.24 5 5 5c1.38 0 2.64-.56 3.54-1.47.65.89 1.77 1.47 2.96 1.47 1.93 0 3.5-1.57 3.5-3.5V12c0-5.52-4.48-10-10-10zm0 13c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+            </svg>
+            <span>💬 Nhóm Chat</span>
+          </a>
+          <a href="https://zalo.me/g/uyaudy632" target="_blank" class="popup-zalo-btn popup-zalo-channel">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+            </svg>
+            <span>📢 Kênh Thông Báo Chính Thức</span>
+          </a>
+        </div>
+        
+        <div class="popup-welcome">WELLCOME TO Cen iOs SHOP</div>
+      </div>
+      <div class="popup-buttons">
+        <button class="popup-btn popup-btn-hide" onclick="hideWelcomePopup()">Ẩn trong 2h</button>
+        <button class="popup-btn popup-btn-close" onclick="closeWelcomePopup()">Đóng</button>
+      </div>
+    </div>
+  </div>
 
   <div id="notification" class="notification hidden">
     <div class="notification-content">
@@ -54,6 +112,20 @@
     <header class="header">
       <h1>🎮 Cen iOS Store</h1>
     </header>
+
+    <!-- Announcement Board with Live Local Time -->
+    <section class="announcement-board" aria-label="Thông báo nổi bật">
+      <div class="announcement-row">
+        <div class="announcement-label">📢 Thông báo</div>
+        <div class="announcement-pill">Nổi bật</div>
+      </div>
+      <p class="announcement-message" id="announcementMessage">Game PUBG đã cập nhật 4.2, để cài đặt Miễn Phí hãy truy cập nhóm ở dưới</p>
+      <div class="announcement-row time-row" aria-live="polite">
+        <div class="time-badge">⏰ Thời gian của bạn</div>
+        <div class="time-value" id="localTime">--:--:--</div>
+        <div class="time-zone" id="localZone">--</div>
+      </div>
+    </section>
 
     <!-- GAME ICONS GRID -->
     <div class="games-grid">
@@ -69,6 +141,18 @@
         <span class="game-name">Xiao Yang</span>
         <span class="game-price">💰 600k/tháng</span>
       </div>
+      <div class="game-icon-card" onclick="openGameSidebar('cod')">
+        <div class="card-badge vip">VIP</div>
+        <img src="COD.jpeg" alt="Call of Duty All Version">
+        <span class="game-name">Call of Duty All Version</span>
+        <span class="game-price">💰 650k/tháng</span>
+      </div>
+      <div class="game-icon-card" onclick="openGameSidebar('pubgkorea')">
+        <div class="card-badge vip">VIP</div>
+        <img src="Cenios.png" alt="PUBG Korea">
+        <span class="game-name">PUBG Korea</span>
+        <span class="game-price">💰 550k/tháng</span>
+      </div>
       <div class="game-icon-card" onclick="openGameSidebar('aov')">
         <div class="card-badge updated">MỚI</div>
         <img src="Aov.png" alt="Liên Quân VN/TW/RoV">
@@ -81,17 +165,32 @@
         <span class="game-name">Tốc Chiến All Version</span>
         <span class="game-price">💰 800k/tháng</span>
       </div>
-      <div class="game-icon-card" onclick="openGameSidebar('cod')">
-        <div class="card-badge vip">VIP</div>
-        <img src="COD.jpeg" alt="Call of Duty All Version">
-        <span class="game-name">Call of Duty All Version</span>
-        <span class="game-price">💰 650k/tháng</span>
-      </div>
-      <div class="game-icon-card" onclick="openGameSidebar('pubgkorea')">
-        <div class="card-badge vip">VIP</div>
-        <img src="Cenios.png" alt="PUBG Korea">
-        <span class="game-name">PUBG Korea</span>
-        <span class="game-price">💰 550k/tháng</span>
+    </div>
+
+    <!-- ANDROID GAMES SECTION -->
+    <div style="margin-top: 40px;">
+      <h2 style="font-size: 20px; margin-bottom: 16px; color: var(--text-color); text-align: center; font-weight: 700;">
+        🤖 Android Games
+      </h2>
+      <div class="games-grid android-grid">
+        <div class="game-icon-card" onclick="openGameSidebar('pubgmobile')">
+          <div class="card-badge vip">VIP</div>
+          <img src="Funtapvip.png" alt="PUBG Non Root">
+          <span class="game-name">PUBG Non Root</span>
+          <span class="game-price">💰 499k/tháng</span>
+        </div>
+        <div class="game-icon-card" onclick="openGameSidebar('mlbbandroid')">
+          <div class="card-badge vip">VIP</div>
+          <img src="Aov.png" alt="Liên Quân Android">
+          <span class="game-name">Liên Quân Android</span>
+          <span class="game-price">💰 350k/tháng</span>
+        </div>
+        <div class="game-icon-card" onclick="openGameSidebar('freefireandroid')">
+          <div class="card-badge vip">VIP</div>
+          <img src="Tocchien.jpeg" alt="Tốc Chiến Android">
+          <span class="game-name">Tốc Chiến Android</span>
+          <span class="game-price">💰 000k/tháng</span>
+        </div>
       </div>
     </div>
 
@@ -108,6 +207,33 @@
         <div class="game-icon-card" onclick="openGameSidebar('acctrangutinh')">
           <img src="10k.jpeg" alt="Acc Test Trắng Tinh">
           <span class="game-name">Acc Test Trắng Tinh</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PREMIUM SERVICES SECTION -->
+    <div style="margin-top: 32px;">
+      <h2 style="font-size: 20px; margin-bottom: 16px; color: var(--text-color); text-align: center; font-weight: 700;">
+        🌟 Dịch Vụ Premium
+      </h2>
+      <div class="games-grid" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 50%, #ffcc80 100%);">
+        <div class="game-icon-card" onclick="openGameSidebar('youtubepremium')">
+          <div class="card-badge vip">Bảo Hành</div>
+          <img src="youtube-icon.png" alt="YouTube Premium">
+          <span class="game-name">YouTube Premium</span>
+          <span class="game-price">💰 180k/3 tháng</span>
+        </div>
+        <div class="game-icon-card" onclick="openGameSidebar('canvapro')">
+          <div class="card-badge updated">Bảo Hành</div>
+          <img src="canva-icon.png" alt="Canva Pro">
+          <span class="game-name">Canva Pro</span>
+          <span class="game-price">💰 250k/năm</span>
+        </div>
+        <div class="game-icon-card" onclick="openGameSidebar('gdrive2tb')">
+          <div class="card-badge updated">Bảo Hành</div>
+          <img src="gdrive-icon.png" alt="Google Drive 2TB">
+          <span class="game-name">Google Drive 2TB</span>
+          <span class="game-price">💰 300k/năm</span>
         </div>
       </div>
     </div>
@@ -443,6 +569,19 @@
     </footer>
   </div>
 
+  <!-- Support Icons on Right -->
+  <div class="support-icons">
+    <a href="https://zalo.me" target="_blank" class="support-icon zalo" title="Hỗ trợ Zalo">
+      📱
+    </a>
+    <a href="https://t.me" target="_blank" class="support-icon telegram" title="Hỗ trợ Telegram">
+      ✈️
+    </a>
+    <a href="https://www.facebook.com/groups/1146932639890254/" target="_blank" class="support-icon facebook" title="Nhóm Facebook chính">
+      👥
+    </a>
+  </div>
+
   <script>
     // Firebase Configuration
     const firebaseConfig = {
@@ -505,6 +644,31 @@
         applyTheme(e.matches ? 'dark' : 'light');
       }
     });
+
+    // ===== Announcement live time =====
+    function updateLocalAnnouncementTime() {
+      const now = new Date();
+      const timeEl = document.getElementById('localTime');
+      const zoneEl = document.getElementById('localZone');
+
+      if (timeEl) {
+        timeEl.textContent = now.toLocaleTimeString('vi-VN', { hour12: false });
+      }
+
+      if (zoneEl) {
+        const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
+        const tzName = new Intl.DateTimeFormat('vi-VN', {
+          timeZone,
+          timeZoneName: 'short'
+        }).format(now).split(' ').pop();
+
+        // Derive region/city from IANA time zone
+        const region = timeZone.includes('/') ? timeZone.split('/')[1].replace('_', ' ') : timeZone;
+        zoneEl.textContent = `${region} · ${tzName}`;
+      }
+    }
+
+    setInterval(updateLocalAnnouncementTime, 1000);
 
     function copyKey(element) {
       const text = element.textContent.trim();
@@ -1035,6 +1199,7 @@
       const savedTheme = localStorage.getItem('theme');
       const themeToApply = savedTheme || getSystemTheme();
       applyTheme(themeToApply);
+      updateLocalAnnouncementTime();
       
       // Initialize all features
       initCountdowns();
@@ -1416,16 +1581,13 @@
         banner: '35k.jpeg',
         version: '1.0',
         status: 'Test Account - Rank Vàng',
-        key: 'AccTest-RankVang-12345',
+        key: '',
         duration: 24,
-        prices: {
-          day: { old: '50k', new: '35k' },
-          week: { old: '200k', new: '140k' },
-          month: { old: '500k', new: '350k' }
-        },
+        isTestAccount: true,
+        price: '35k',
         links: {
-          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/acctest.plist',
-          getKey: 'https://hackmod.vn'
+          zalo: 'https://zalo.me/420773099399',
+          payment: 'https://zalo.me/420773099399?text=Xin%20ch%C3%A0o,%20t%C3%B4i%20mu%E1%BB%91n%20mua%20Acc%20Test%20Rank%20V%C3%A0ng%20(35k)'
         }
       },
       acctrangutinh: {
@@ -1434,16 +1596,58 @@
         banner: '10k.jpeg',
         version: '1.0',
         status: 'Test Account - Trắng Tinh',
-        key: 'AccTest-TrangUtinh-67890',
+        key: '',
         duration: 24,
-        prices: {
-          day: { old: '30k', new: '15k' },
-          week: { old: '120k', new: '70k' },
-          month: { old: '350k', new: '180k' }
-        },
+        isTestAccount: true,
+        price: '15k',
         links: {
-          install: 'itms-services://?action=download-manifest&url=https://k3ndzy.github.io/CeniOs/acctest.plist',
-          getKey: 'https://hackmod.vn'
+          zalo: 'https://zalo.me/420773099399',
+          payment: 'https://zalo.me/420773099399?text=Xin%20ch%C3%A0o,%20t%C3%B4i%20mu%E1%BB%91n%20mua%20Acc%20Test%20Tr%E1%BA%AFng%20Tinh%20(15k)'
+        }
+      },
+      youtubepremium: {
+        name: 'YouTube Premium',
+        icon: 'youtube-icon.png',
+        banner: 'youtube-icon.png',
+        version: 'Premium',
+        status: 'Không quảng cáo - Nghe nền',
+        key: '',
+        duration: 90,
+        isService: true,
+        price: '180k/3 tháng',
+        links: {
+          zalo: 'https://zalo.me/420773099399',
+          payment: 'https://zalo.me/420773099399?text=Xin%20ch%C3%A0o,%20t%C3%B4i%20mu%E1%BB%91n%20mua%20YouTube%20Premium%203%20th%C3%A1ng%20(180k)'
+        }
+      },
+      canvapro: {
+        name: 'Canva Pro',
+        icon: 'canva-icon.png',
+        banner: 'canva-icon.png',
+        version: 'Pro',
+        status: 'Thiết kế chuyên nghiệp - Template cao cấp',
+        key: '',
+        duration: 365,
+        isService: true,
+        price: '250k/năm',
+        links: {
+          zalo: 'https://zalo.me/420773099399',
+          payment: 'https://zalo.me/420773099399?text=Xin%20ch%C3%A0o,%20t%C3%B4i%20mu%E1%BB%91n%20mua%20Canva%20Pro%20(250k%2Fn%C4%83m)'
+        }
+      },
+      gdrive2tb: {
+        name: 'Google Drive 2TB',
+        icon: 'gdrive-icon.png',
+        banner: 'gdrive-icon.png',
+        version: '2TB',
+        status: 'Lưu trữ đám mây - Chia sẻ dễ dàng',
+        key: '',
+        duration: 365,
+        isService: true,
+        price: '300k/năm',
+        links: {
+          zalo: 'https://zalo.me/420773099399',
+          payment: 'https://zalo.me/420773099399?text=Xin%20ch%C3%A0o,%20t%C3%B4i%20mu%E1%BB%91n%20mua%20Google%20Drive%202TB%20(300k%2Fn%C4%83m)'
         }
       },
       xiaoyangpc: {
@@ -1465,8 +1669,79 @@
           funlink1: 'https://link4sub.com/9WwM',
           funlink2: 'https://baontq.xyz/xiao.php?code=073066d2-230a-4f8b-aa45-57dbfa9b8fdc'
         }
-      }
+      },
+      pubgmobile: {
+        name: 'PUBG Non Root',
+        icon: 'Funtapvip.png',
+        banner: 'Funtapvip.png',
+        version: '3.2',
+        status: 'Safe - ESP Bật',
+        key: 'Android-PUBG-Key123',
+        duration: 6,
+        prices: {
+          day: { old: '60k', new: '25k' },
+          week: { old: '300k', new: '150k' },
+          month: { old: '900k', new: '499k' }
+        },
+        links: {
+          getKey: 'https://hackmod.vn',
+          funlink1: 'https://baontq.xyz/pubg.php?code=android-pubg-1',
+          funlink2: 'https://baontq.xyz/pubg.php?code=android-pubg-2'
+        },
+        isAndroid: true
+      },
+      mlbbandroid: {
+        name: 'Liên Quân Android',
+        icon: 'Aov.png',
+        banner: 'Aov.png',
+        version: '1.7',
+        status: 'Safe - Full Map',
+        key: 'Android-MLBB-Key456',
+        duration: 6,
+        prices: {
+          day: { old: '50k', new: '20k' },
+          week: { old: '250k', new: '120k' },
+          month: { old: '700k', new: '350k' }
+        },
+        links: {
+          getKey: 'https://hackmod.vn',
+          funlink1: 'https://baontq.xyz/mlbb.php?code=android-mlbb-1',
+          funlink2: 'https://baontq.xyz/mlbb.php?code=android-mlbb-2'
+        },
+        isAndroid: true
+      },
+      freefireandroid: {
+        name: 'Tốc Chiến Android',
+        icon: 'Tocchien.jpeg',
+        banner: 'Tocchien.jpeg',
+        version: '1.8',
+        status: 'Safe - Wallhack',
+        key: 'Android-FF-Key789',
+        duration: 6,
+        prices: {
+          day: { old: '0k', new: '0k' },
+          week: { old: '0k', new: '0k' },
+          month: { old: '0k', new: '0k' }
+        },
+        links: {
+          getKey: 'https://hackmod.vn',
+          funlink1: 'https://baontq.xyz/ff.php?code=android-ff-1',
+          funlink2: 'https://baontq.xyz/ff.php?code=android-ff-2'
+        },
+        isAndroid: true
+      },
+
     };
+
+    function generateOrderCode(gameId) {
+      const now = new Date();
+      const day = String(now.getDate()).padStart(2, '0');
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const year = String(now.getFullYear()).slice(-2);
+      const hour = String(now.getHours()).padStart(2, '0');
+      const minute = String(now.getMinutes()).padStart(2, '0');
+      return `CeniOs${day}${month}${year}-${hour}${minute}`;
+    }
 
     function openGameSidebar(gameId) {
       const sidebar = document.getElementById('gameSidebar');
@@ -1474,6 +1749,9 @@
       const game = gameData[gameId];
 
       if (!game) return;
+
+      // Tạo mã đơn hàng
+      const orderCode = generateOrderCode(gameId);
 
       content.innerHTML = `
         <div class="sidebar-header">
@@ -1488,6 +1766,22 @@
           <img src="${game.banner}" style="width: 100%; border-radius: 12px; margin-bottom: 12px;">
         </div>
 
+        ${game.isTestAccount || game.isService ? `
+        <div class="sidebar-section" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 20px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
+          <h3 style="margin: 0 0 8px 0; font-size: 18px; color: #e65100; font-weight: 700;">💰 Giá ${game.isService ? 'Dịch Vụ' : 'Tài Khoản'}</h3>
+          <div style="font-size: 28px; font-weight: 900; color: #e65100; margin: 8px 0;">${game.price}</div>
+          <div style="font-size: 13px; color: #f57c00; font-weight: 600;">✅ Thanh toán ngay qua Zalo</div>
+        </div>
+
+        <div class="button-group" style="margin-top: 16px;">
+          <a class="btn" href="${game.links.payment}" target="_blank" style="width: 100%; text-align: center; display: block; margin-bottom: 12px; padding: 16px 20px; background: linear-gradient(135deg, #00b14f 0%, #00953b 100%); color: white; text-decoration: none; border-radius: 12px; font-size: 17px; font-weight: 700; transition: all 0.3s; box-shadow: 0 4px 16px rgba(0, 177, 79, 0.4); border: 2px solid rgba(255,255,255,0.3);">
+            💬 Nhận ${game.isService ? 'Dịch Vụ' : 'Acc'} Qua Zalo Ngay
+          </a>
+          <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); padding: 12px; border-radius: 10px; text-align: center; font-size: 13px; color: #1565c0; font-weight: 600;">
+            ⚡ Nhận ${game.isService ? 'dịch vụ' : 'acc'} trong 5 phút sau thanh toán
+          </div>
+        </div>
+        ` : `
         <div class="sidebar-section">
           <h3 style="margin: 0 0 8px 0; font-size: 16px;">🔑 Key Free</h3>
           <code class="copy-code" onclick="copyKey(this)" style="display: block; padding: 10px; background: #e3f2fd; border-radius: 8px; cursor: pointer; text-align: center; font-weight: 600; font-size: 14px;">
@@ -1499,8 +1793,18 @@
           <a class="btn" href="${game.links.install}" onclick="trackInstallClick('${gameId}')" style="width: 100%; text-align: center; display: block; margin-bottom: 10px; padding: 14px 20px; background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%); color: white; text-decoration: none; border-radius: 12px; font-size: 16px; font-weight: 600; transition: all 0.3s; box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);">
             📥 Cài Đặt Ngay
           </a>
-          <a class="btn" href="https://zalo.me/420773099399" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; background: linear-gradient(135deg, #0084ff 0%, #0073e6 100%); color: white; font-weight: 600;">
-            💬 Liên Hệ Zalo để Lấy Key
+          
+          <div style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); padding: 12px; border-radius: 10px; margin-bottom: 10px; text-align: center;">
+            <div style="font-size: 12px; color: #e65100; font-weight: 600; margin-bottom: 6px;">📋 Mã Đơn Hàng Của Bạn</div>
+            <div style="font-size: 18px; font-weight: 700; color: #d84315; letter-spacing: 1px;">#${orderCode}</div>
+          </div>
+
+          <a class="btn" href="https://zalo.me/420773099399?text=Xin%20ch%C3%A0o,%20t%C3%B4i%20mu%E1%BB%91n%20h%E1%BB%8Fi%20th%C3%B4ng%20tin%20v%E1%BB%81%20${encodeURIComponent(game.name)}" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; padding: 12px 20px; background: linear-gradient(135deg, #0084ff 0%, #0073e6 100%); color: white; font-weight: 600; border-radius: 10px;">
+            💬 Liên Hệ Zalo để Hỏi
+          </a>
+          
+          <a class="btn" href="https://zalo.me/420773099399?text=Xin%20ch%C3%A0o,%20t%C3%B4i%20%C4%91%C3%A3%20thanh%20to%C3%A1n%20${encodeURIComponent(game.name)}.%0AM%C3%A3%20%C4%91%C6%A1n:%20%23${orderCode}%0AVui%20l%C3%B2ng%20g%E1%BB%ADi%20key%20cho%20t%C3%B4i.%20C%E1%BA%A3m%20%C6%A1n!" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; padding: 12px 20px; background: linear-gradient(135deg, #00b14f 0%, #00953b 100%); color: white; font-weight: 700; border-radius: 10px; box-shadow: 0 4px 12px rgba(0, 177, 79, 0.3); border: 2px solid rgba(255,255,255,0.2);">
+            ✅ Đã Thanh Toán - Nhận Key
           </a>
           <a class="btn" href="${game.links.funlink1}" target="_blank" style="width: 100%; text-align: center; display: block; text-decoration: none; margin-bottom: 10px; background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); color: white; font-weight: 600;">
             🔑 FunLink 5H Free (Vượt Link 2 lần)
@@ -1509,6 +1813,7 @@
             🔑 Lấy Mã 5H Free (Vượt Link 2 Lần)
           </a>
         </div>
+        `}
 
         <div class="qr-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); padding: 16px; border-radius: 12px; margin-top: 16px; text-align: center;">
           <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #2e7d32; display: flex; align-items: center; justify-content: center; gap: 8px;">
@@ -1642,6 +1947,39 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         closeGameSidebar();
+      }
+    });
+
+    // Welcome Popup Functions
+    function closeWelcomePopup() {
+      document.getElementById('welcomePopup').style.display = 'none';
+    }
+
+    function hideWelcomePopup() {
+      const now = new Date().getTime();
+      const hideUntil = now + (2 * 60 * 60 * 1000); // 2 hours
+      localStorage.setItem('hideWelcomePopupUntil', hideUntil);
+      closeWelcomePopup();
+    }
+
+    // Show popup on page load if not hidden
+    window.addEventListener('load', () => {
+      const hideUntil = localStorage.getItem('hideWelcomePopupUntil');
+      const now = new Date().getTime();
+      
+      if (!hideUntil || now > parseInt(hideUntil)) {
+        document.getElementById('welcomePopup').style.display = 'flex';
+      }
+
+      // Debug support icons
+      const supportIcons = document.querySelector('.support-icons');
+      if (supportIcons) {
+        console.log('✅ Support icons found:', supportIcons);
+        console.log('Display:', window.getComputedStyle(supportIcons).display);
+        console.log('Position:', window.getComputedStyle(supportIcons).position);
+        console.log('Z-index:', window.getComputedStyle(supportIcons).zIndex);
+      } else {
+        console.error('❌ Support icons not found in DOM');
       }
     });
   </script>
