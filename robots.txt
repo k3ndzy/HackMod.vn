@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin-panel.html
+
+Sitemap: https://k3ndzy.github.io/CeniOs/sitemap.xml

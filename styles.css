@@ -751,30 +751,6 @@ body.dark .game-price {
   }
 }
 
-.toggle-theme {
-  display: none;
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  background: var(--btn-bg);
-  color: white;
-  border: none;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 14px;
-  box-shadow: 0 2px 8px var(--card-shadow);
-  transition: all 0.3s;
-  z-index: 1000;
-}
-
-.toggle-theme:hover {
-  background: var(--btn-bg-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--card-shadow);
-}
-
 .card {
   background: var(--card-bg);
   border-radius: 16px;

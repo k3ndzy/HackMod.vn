@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>assets</key>
+			<array>
+				<dict>
+					<key>kind</key>
+					<string>software-package</string>
+					<key>url</key>
+					<string>https://cbdf0e706737c488340cfe512dc1395c.r2.cloudflarestorage.com/cenvn/ipa/69a487a625808_LOLm_v4.ipa</string>
+				</dict>
+				<dict>
+					<key>kind</key>
+					<string>display-image</string>
+					<key>url</key>
+					<string>https://k3ndzy.github.io/CeniOs/Tocchien.jpeg</string>
+				</dict>
+				<dict>
+					<key>kind</key>
+					<string>full-size-image</string>
+					<key>url</key>
+					<string>https://k3ndzy.github.io/CeniOs/Tocchien.jpeg</string>
+				</dict>
+			</array>
+			<key>metadata</key>
+			<dict>
+				<key>bundle-identifier</key>
+				<string>com.riotgames.league.wildrift</string>
+				<key>bundle-version</key>
+				<string>2.0</string>
+				<key>kind</key>
+				<string>software</string>
+				<key>title</key>
+				<string>Wild Rift IOS VIP</string>
+				<key>subtitle</key>
+				<string>Mod - Full Map + High Cam</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
