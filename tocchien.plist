@@ -11,19 +11,26 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://cbdf0e706737c488340cfe512dc1395c.r2.cloudflarestorage.com/cenvn/ipa/69a487a625808_LOLm_v4.ipa</string>
+
+              	<string>https://cbdf0e706737c488340cfe512dc1395c.r2.cloudflarestorage.com/cenvn/ipa/69a487a625808_LOLm_v4.ipa</string>
+
+
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>display-image</string>
+					<key>needs-shine</key>
+					<false/>
 					<key>url</key>
-					<string>https://k3ndzy.github.io/CeniOs/Tocchien.jpeg</string>
+					<string>https://k3ndzy.github.io/CeniOs/icon-120.png</string>
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>full-size-image</string>
+					<key>needs-shine</key>
+					<false/>
 					<key>url</key>
-					<string>https://k3ndzy.github.io/CeniOs/Tocchien.jpeg</string>
+					<string>https://k3ndzy.github.io/CeniOs/icon-512.png</string>
 				</dict>
 			</array>
 			<key>metadata</key>
@@ -31,13 +38,13 @@
 				<key>bundle-identifier</key>
 				<string>com.riotgames.league.wildrift</string>
 				<key>bundle-version</key>
-				<string>2.0</string>
+				<string>4.1</string>
 				<key>kind</key>
 				<string>software</string>
 				<key>title</key>
-				<string>Wild Rift IOS VIP</string>
+				<string>Wild Rift IOS</string>
 				<key>subtitle</key>
-				<string>Mod - Full Map + High Cam</string>
+				<string>41A472</string>
 			</dict>
 		</dict>
 	</array>
